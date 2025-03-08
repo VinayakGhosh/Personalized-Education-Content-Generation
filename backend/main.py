@@ -1,10 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
 
 app = FastAPI()
 
-llm = Ollama(model="llama3.1")
+llm = OllamaLLM(model="llama3.1")
+
+# Allow frontend requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Allow requests from React app
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Define request body structure
 class PromptRequest(BaseModel):
