@@ -2,10 +2,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from langchain_ollama import OllamaLLM
+from routes.auth import auth_router
+from routes.chat import chat_router
 
 app = FastAPI()
 
-llm = OllamaLLM(model="llama3.1")
+llm = OllamaLLM(model="gemma3:12b")
+
+# Include routes
+app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+app.include_router(chat_router, prefix="/chat", tags=["AI Chat"])
 
 # Allow frontend requests
 app.add_middleware(
@@ -41,3 +47,4 @@ def double_number(num:int):
         raise HTTPException(status_code=500, detail=str(e))
         
     
+print("hello")
