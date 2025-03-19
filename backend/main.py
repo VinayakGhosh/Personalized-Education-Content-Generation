@@ -1,50 +1,31 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from langchain_ollama import OllamaLLM
-from routes.auth import auth_router
 from routes.chat import chat_router
+from routes.auth import auth_router
+import os
+from langchain_ollama import OllamaLLM
 
 app = FastAPI()
-
-llm = OllamaLLM(model="gemma3:12b")
-
-# Include routes
-app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
-app.include_router(chat_router, prefix="/chat", tags=["AI Chat"])
 
 # Allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Allow requests from React app
+    allow_origins=["http://localhost:5173"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# Define request body structure
-class PromptRequest(BaseModel):
-    prompt: str
+# Load Ollama model from .env
+model_name = os.getenv("OLLAMA_MODEL", "llama3")
+llm = OllamaLLM(model=model_name)
+
+# Include routes
+app.include_router(chat_router, prefix="/chat", tags=["AI Chat"])
+app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 
 @app.get("/")
 def home():
-    return{"message: Hello World" }
+    return {"message": "Welcome to AI-Powered Education!"}
 
-@app.post("/generate/")
-def generate_content(request: PromptRequest):
-    try:
-        response = llm.invoke(request.prompt)  # Using LangChain's invoke method
-        return {"generated_text": response}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/double")
-def double_number(num:int):
-    try:
-        return{"number": num, "double": num*2}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-        
-    
-print("hello")
+print("🚀 FastAPI Server Running!")

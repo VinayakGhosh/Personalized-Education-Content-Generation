@@ -2,6 +2,6 @@ from fastapi import APIRouter
 
 auth_router = APIRouter()
 
-@auth_router.get("/signup")
-def signup():
-    return {"message": "Signup Route"}
+@auth_router.get("/test")
+def test_auth():
+    return {"message": "Auth route is working"}

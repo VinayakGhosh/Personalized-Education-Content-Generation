@@ -1,14 +1,28 @@
 import { Link } from "react-router-dom";
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold mb-4">Welcome to EduAI</h1>
-      <p className="text-lg mb-6">Your personalized AI-powered study assistant.</p>
-      <div className="space-x-4">
-        <Link to="/login" className="px-4 py-2 bg-blue-600 text-white rounded">Login</Link>
-        <Link to="/signup" className="px-4 py-2 bg-green-600 text-white rounded">Signup</Link>
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-purple-600 text-white">
+      <h1 className="text-4xl font-bold mb-4">Welcome to AI Learning Hub</h1>
+      <p className="text-lg text-center max-w-md">
+        A personalized AI-powered educational assistant. Start learning today!
+      </p>
+      <div className="mt-6 flex gap-4">
+        <Link
+          to="/login"
+          className="px-6 py-3 bg-white text-blue-600 rounded-lg shadow-md hover:bg-gray-200 transition"
+        >
+          Login
+        </Link>
+        <Link
+          to="/signup"
+          className="px-6 py-3 bg-blue-700 text-white rounded-lg shadow-md hover:bg-blue-800 transition"
+        >
+          Signup
+        </Link>
       </div>
     </div>
   );
-}
+};
+
+export default Home;

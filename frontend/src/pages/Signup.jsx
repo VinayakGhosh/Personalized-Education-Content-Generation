@@ -1,46 +1,55 @@
 import { useState } from "react";
-import { signupUser } from "../services/api";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
 
-  const handleSignup = async (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
-    const response = await signupUser({ email, password });
-
-    if (response.error) {
-      setMessage(response.error);
-    } else {
-      setMessage("Signup successful! You can now login.");
-    }
+    console.log("Signing up with", name, email, password);
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="p-6 bg-white shadow-md rounded-md">
-        <h2 className="text-xl font-bold mb-4">Signup</h2>
-        {message && <p className="text-red-500">{message}</p>}
-        <form onSubmit={handleSignup}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+        <form onSubmit={handleSignup} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <input
             type="email"
             placeholder="Email"
-            className="border p-2 w-full mb-2"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
           <input
             type="password"
             placeholder="Password"
-            className="border p-2 w-full mb-2"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
-          <button className="bg-blue-500 text-white px-4 py-2 w-full">Signup</button>
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition"
+          >
+            Sign Up
+          </button>
         </form>
+        <p className="text-sm text-center mt-4">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
