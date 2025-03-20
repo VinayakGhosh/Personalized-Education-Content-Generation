@@ -10,10 +10,16 @@ const ChatPage = () => {
   const [loadingResponse, setLoadingResponse] = useState(false);
   const [mode, setMode] = useState("Explain"); // Default mode
 
+   // Function to format timestamp
+   const getFormattedTime = () => {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
+  };
+
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage = { text: input, sender: "user", mode };
+    const userMessage = { text: input, sender: "user", mode, timestamp: getFormattedTime() };
     setMessages((prev) => [...prev, userMessage]);
 
     setInput("");
@@ -22,11 +28,11 @@ const ChatPage = () => {
       setLoadingResponse(true);
       const botResponse = await sendChatPrompt(input, mode);
       console.log('botResponse', botResponse)
-      setMessages((prev) => [...prev, { text: botResponse, sender: "bot" }]);
+      setMessages((prev) => [...prev, { text: botResponse, sender: "bot", timestamp: getFormattedTime() }]);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
-        { text: "Error getting response!", sender: "bot" },
+        { text: "Error getting response!", sender: "bot", timestamp: getFormattedTime() },
       ]);
       console.error("error with chat response");
     } finally {
@@ -49,7 +55,7 @@ const ChatPage = () => {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex ${
+              className={`flex gap-x-1 ${
                 msg.sender === "user" ? "justify-end" : "justify-start"
               }`}
             >
@@ -63,7 +69,9 @@ const ChatPage = () => {
                 dangerouslySetInnerHTML={{ __html: marked(msg.text) }}
               >
                 {/* {msg.text} */}
+                
               </div>
+              <div className="text-xs text-gray-500 mt-1 text-right">{msg.timestamp}</div>
             </div>
           ))}
         </div>

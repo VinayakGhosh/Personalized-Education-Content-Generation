@@ -8,6 +8,6 @@ load_dotenv()
 # Connect to MongoDB
 MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
-db = client["education_db"]  # Database name
-
+db = client["chat_app"]  # Database name
+users_collection = db["users"]
 print("✅ Connected to MongoDB!")
