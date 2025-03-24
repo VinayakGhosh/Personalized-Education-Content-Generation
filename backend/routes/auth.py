@@ -8,20 +8,29 @@ auth_router = APIRouter()
 
 @auth_router.post("/signup")
 def signup(user: UserSignup):
+    """API to register a new user."""
+    # Check if the user already exists
     existing_user = users_collection.find_one({"email": user.email})
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="Email already registered.")
 
     hashed_password = hash_password(user.password)
-    users_collection.insert_one({"email": user.email, "password": hashed_password})
-
-    return {"message": "User registered successfully"}
+    user_entry = {
+        "email": user.email,
+        "password": hashed_password,
+        "full_name": user.full_name
+    }
+    users_collection.insert_one(user_entry)
+    return {"message": "User registered successfully!",
+    "email": user.email,
+    "full_name": user.full_name}
 
 @auth_router.post("/login")
-def login(user: UserLogin):
-    existing_user = users_collection.find_one({"email": user.email})
-    if not existing_user or not verify_password(user.password, existing_user["password"]):
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-
-    token = create_access_token({"sub": user.email})
-    return {"access_token": token, "token_type": "bearer"}
+def login(user_data: UserLogin):
+    user = users_collection.find_one({"email": user_data.email})
+    if not user or not verify_password(user_data.password, user["password"]):
+        raise HTTPException(status_code=401, detail="Invalid email or password.")
+    
+    token = create_access_token({"email": user["email"]})  # Generate JWT token
+    return {"message": "Login successful!", "token": token}
+    

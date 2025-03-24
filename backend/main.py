@@ -26,6 +26,6 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to AI-Powered Education!"}
+    return {"message": "go for /docs if you want to look at the swagegr docs of the API"}
 
 print("🚀 FastAPI Server Running!")
