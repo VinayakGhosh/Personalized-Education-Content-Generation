@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-purple-600 text-white">
-      <h1 className="text-4xl font-bold mb-4">Welcome to AI Learning Hub</h1>
-      <p className="text-lg text-center max-w-md">
-        A personalized AI-powered educational assistant. Start learning today!
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-purple-600 text-white w-full">
+      <h1 className="text-5xl font-bold mb-4">Welcome to Edu-Chat</h1>
+      <p className="text-2xl text-center max-w-xl">
+        Your personalized AI-powered educational assistant. Start learning today!
       </p>
       <div className="mt-6 flex gap-4">
         <Link

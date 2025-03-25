@@ -3,12 +3,14 @@ import { FiSend } from "react-icons/fi";
 import { sendChatPrompt } from "../api/api";
 import ClipLoader from "react-spinners/ClipLoader";
 import { marked } from "marked";
+import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loadingResponse, setLoadingResponse] = useState(false);
   const [mode, setMode] = useState("Explain"); // Default mode
+  const navigate = useNavigate()
 
    // Function to format timestamp
    const getFormattedTime = () => {
@@ -42,8 +44,20 @@ const ChatPage = () => {
   };
   console.log(messages)
 
+  const handleLogout = () => {
+    alert('Do you want to log out?')
+    localStorage.removeItem("token"); // Remove token
+    navigate("/login"); // Redirect to login
+  };  
+
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center ">
+       <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition absolute top-2 right-2 cursor-pointer"
+          >
+            Logout
+          </button>
       <div className="flex flex-col w-3xl h-[90%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
         {/* Chat Header */}
         <div className="bg-[#4F959D] text-white text-center py-4 text-lg font-semibold shadow-md">
