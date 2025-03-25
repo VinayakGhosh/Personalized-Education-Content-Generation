@@ -1,20 +1,36 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signupUser } from "../api/api"; // Import API function
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("Signing up with", name, email, password);
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await signupUser({ full_name: name, email, password });
+      alert(response.message); // Show success message
+      navigate("/login"); // Redirect to login page
+    } catch (err) {
+      setError(err.detail || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleSignup} className="space-y-4">
           <input
             type="text"
@@ -40,8 +56,9 @@ const Signup = () => {
           <button
             type="submit"
             className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition"
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
         <p className="text-sm text-center mt-4">
