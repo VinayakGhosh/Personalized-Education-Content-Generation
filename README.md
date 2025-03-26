@@ -21,6 +21,11 @@ This repository has source code for Personalized Educational Content Generation 
      ```
      ollama pull mistral
      ```
+     - if low ram then
+       ```
+       ollama pull tinyllama:1.1b
+       ```
+       
 4) Create .env file and put this in it
         ```
 
