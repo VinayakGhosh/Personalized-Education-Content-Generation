@@ -100,7 +100,7 @@ const ChatPage = () => {
           >
             <option value="Explain">Explain</option>
             <option value="Quiz">Quiz</option>
-            <option value="Summarize">Summarize</option>
+            <option value="Test">Generate Ques</option>
           </select>
 
           <input

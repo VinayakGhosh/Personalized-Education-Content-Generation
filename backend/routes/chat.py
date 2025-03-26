@@ -26,8 +26,8 @@ def generate_content(request: ChatRequest):
             final_prompt = f"Explain in two lines {request.prompt}"
         elif request.mode == "Quiz":
             final_prompt = f"Generate a quiz question with multiple options related to: {request.prompt}, the multiple options should be in different lines and also give the correct answer out of the given options in the next line"
-        elif request.mode == "Summarize":
-            final_prompt = f"Summarize this: {request.prompt}"
+        elif request.mode == "Test":
+            final_prompt = f"From the given prompt: {request.prompt}, identify the topic which is asked in the {request.prompt}, specify the subject or topic that this prompt belong to, then give two questions related to the {request.prompt}, after that give the answers of those question in the end. Mark the topic's name as bold, give number to each questions and generate the answer in italics."
         else:
             final_prompt = request.prompt  # Default behavior
 
