@@ -34,7 +34,8 @@ This repository has source code for Personalized Educational Content Generation 
         ```
         npm install
         ```
-2) Start vite server
+   
+3) Start vite server
         ```
         npm run dev
         ```
