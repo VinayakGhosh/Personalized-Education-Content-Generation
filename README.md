@@ -30,5 +30,11 @@ This repository has source code for Personalized Educational Content Generation 
 ## Frontend
 - cd into /frontend
 
-1) Run `npm install`
-2) Start server `npm run dev`
+1) Install node dependencies
+        ```
+        npm install
+        ```
+2) Start vite server
+        ```
+        npm run dev
+        ```
