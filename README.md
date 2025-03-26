@@ -21,10 +21,18 @@ This repository has source code for Personalized Educational Content Generation 
      ```
      ollama pull mistral
      ```
+4) Create .env file and put this in it
+        ```
+
+          MONGO_URI=mongodb+srv://VinayakCS:VinayakCS4060@cluster0.iifdj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        JWT_SECRET=your_secret_key
+          OLLAMA_MODEL=mistral:latest
+     ```
 4) Run FastApi
      ```
      uvicorn main:app --reload
     ```
+   
 
 
 ## Frontend
