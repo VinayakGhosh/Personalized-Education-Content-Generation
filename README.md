@@ -1,12 +1,12 @@
-#About
+# About
 
 This repository has source code for Personalized Educational Content Generation using AI
 
-#How to use this Repo
+# How to use this Repo
 
-##Backend
+## Backend
 
-cd into /backend
+- cd into /backend
 1) Setup virtual env in python using
      ```
      python -m venv venv
