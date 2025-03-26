@@ -5,7 +5,7 @@ This repository has source code for Personalized Educational Content Generation 
 # How to use this Repo
 
 ## Backend
-
+- Download python and ollama in your system
 - cd into /backend
 1) Setup virtual env in python using
      ```
