@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiSend } from "react-icons/fi";
 import { sendChatPrompt } from "../api/api";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -12,6 +12,16 @@ const ChatPage = () => {
   const [mode, setMode] = useState("Explain"); // Default mode
   const navigate = useNavigate()
 
+  // Ref for the chat container
+  const chatContainerRef = useRef(null);
+
+   // Scroll to bottom when messages change
+   useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+  
    // Function to format timestamp
    const getFormattedTime = () => {
     const now = new Date();
@@ -65,7 +75,7 @@ const ChatPage = () => {
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#F5F5F5] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-green-300">
+        <div ref={chatContainerRef}  className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#F5F5F5] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-green-300">
           {messages.map((msg, index) => (
             <div
               key={index}
