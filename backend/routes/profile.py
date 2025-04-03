@@ -23,7 +23,7 @@ async def setup_profile(profile: Profile):
     print(profile.user_id)
      # ✅ Update profile_complete in users_collection
     users_collection.update_one(
-        {"_id": profile.user_id},
+        {"_id": ObjectId(profile.user_id)},
         {"$set": {"profile_complete": True}}
     )
 
