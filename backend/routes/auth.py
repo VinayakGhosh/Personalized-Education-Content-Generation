@@ -18,7 +18,13 @@ def signup(user: UserSignup):
     user_entry = {
         "email": user.email,
         "password": hashed_password,
-        "full_name": user.full_name
+        "full_name": user.full_name,
+        "profile_complete": False,  # New users start with incomplete profile
+        "age": None,
+        "study_level": None,
+        "stream": None,
+        "subjects": [],
+        "preferences": []
     }
     users_collection.insert_one(user_entry)
     return {"message": "User registered successfully!",
@@ -32,5 +38,9 @@ def login(user_data: UserLogin):
         raise HTTPException(status_code=401, detail="Invalid email or password.")
     
     token = create_access_token({"email": user["email"]})  # Generate JWT token
-    return {"message": "Login successful!", "token": token}
+    return {
+        "message": "Login successful!",
+        "token": token,
+        "profile_complete": user.get("profile_complete", False)  # Return profile status
+    }
     

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.chat import chat_router
 from routes.auth import auth_router
+from routes.profile import profile_router
 import os
 from langchain_ollama import OllamaLLM
 
@@ -23,6 +24,7 @@ llm = OllamaLLM(model=model_name)
 # Include routes
 app.include_router(chat_router, prefix="/chat", tags=["AI Chat"])
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+app.include_router(profile_router, prefix="/user")
 
 @app.get("/")
 def home():
