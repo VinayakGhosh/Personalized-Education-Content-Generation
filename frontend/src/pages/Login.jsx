@@ -17,9 +17,15 @@ const Login = () => {
     try {
       const response = await loginUser({ email, password });
       localStorage.setItem("token", response.token); // Store JWT token
+      localStorage.setItem("user_id", response.user_id);
+      console.log("userId", response.user_id)
       alert(response.message); // Show success message
 
-      navigate("/chat"); // Redirect to chat page
+      if (response.profile_complete) {
+        navigate("/chat"); // Redirect to chat if profile is complete
+      } else {
+        navigate("/profile-setup"); // Redirect to profile setup if not complete
+      }
     } catch (err) {
       setError(err.detail || "Login failed");
     } finally {

@@ -18,8 +18,8 @@ const Signup = () => {
     try {
       const response = await signupUser({ full_name: name, email, password });
       alert(response.message); // Show success message
-      navigate("/profile-setup"); // Redirect to profile setup
-      // navigate("/login"); // Redirect to login page
+      // navigate("/profile-setup"); // Redirect to profile setup
+      navigate("/login"); // Redirect to login page
     } catch (err) {
       setError(err.detail || "Signup failed");
     } finally {

@@ -24,7 +24,7 @@ llm = OllamaLLM(model=model_name)
 # Include routes
 app.include_router(chat_router, prefix="/chat", tags=["AI Chat"])
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
-app.include_router(profile_router, prefix="/user")
+app.include_router(profile_router, prefix="/user", tags=["User Profile"])
 
 @app.get("/")
 def home():

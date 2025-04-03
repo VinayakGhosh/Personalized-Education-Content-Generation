@@ -26,10 +26,10 @@ export const loginUser = async (userData) => {
 };
 
 // User profile collection 
-export const updateUserProfile = async (profileData) => {
+export const setupProfile = async (profileData) => {
   const token = localStorage.getItem("token");
   try {
-    await axios.post(`${API_URL}/profile/setup`, profileData, {
+    await axios.post(`${API_URL}/user/profile/setup`, profileData, {
       headers: { Authorization: `Bearer ${token}` },
     });
   } catch (error) {

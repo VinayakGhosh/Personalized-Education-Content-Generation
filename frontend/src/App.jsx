@@ -17,7 +17,10 @@ const App = () => {
           <Route 
             path="/profile-setup" 
             element={ 
-              <ProfileSetup />
+              <ProtectedRoute>
+                <ProfileSetup />
+              </ProtectedRoute>
+              
             
             } 
             />

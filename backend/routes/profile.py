@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from models.user import Profile
 from core.database import profiles_collection
+from core.database import users_collection
 from bson import ObjectId
 
 profile_router = APIRouter()
@@ -19,6 +20,7 @@ async def setup_profile(profile: Profile):
     if not new_profile.inserted_id:
         raise HTTPException(status_code=500, detail="Failed to create profile.")
 
+    print(profile.user_id)
      # ✅ Update profile_complete in users_collection
     users_collection.update_one(
         {"_id": profile.user_id},

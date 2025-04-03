@@ -1,82 +1,139 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateUserProfile } from "../api/api";
+import { setupProfile } from "../api/api"; // API function to send profile data
 
 const ProfileSetup = () => {
   const [age, setAge] = useState("");
+  const [studyLevel, setStudyLevel] = useState("school");
+  const [stream, setStream] = useState("science");
   const [subjects, setSubjects] = useState([]);
+  const [preferences, setPreferences] = useState([]);
   const navigate = useNavigate();
 
   const handleSubjectChange = (subject) => {
-    setSubjects((prevSubjects) =>
-      prevSubjects.includes(subject)
-        ? prevSubjects.filter((s) => s !== subject)
-        : [...prevSubjects, subject]
+    setSubjects((prev) =>
+      prev.includes(subject) ? prev.filter((s) => s !== subject) : [...prev, subject]
+    );
+  };
+  console.log(age)
+  console.log(studyLevel)
+  console.log(stream)
+  console.log(subjects)
+  console.log(preferences)
+
+  const handlePreferenceChange = (preference) => {
+    setPreferences((prev) =>
+      prev.includes(preference) ? prev.filter((p) => p !== preference) : [...prev, preference]
     );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!age || subjects.length === 0) {
-      alert("Please enter your age and select at least one subject.");
-      return;
-    }
-
-    const profileData = { age, subjects };
-
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id")
+    console.log("user id is: ", userId)
     try {
-      await updateUserProfile(profileData);
-      alert("Profile setup completed!");
-      navigate("/subject-selection"); // Redirect to subject selection page
+      await setupProfile(
+        {user_id:userId, age, study_level: studyLevel, stream, subjects, preferences },
+        token
+      );
+      navigate("/chat"); // Redirect to chat after profile setup
     } catch (error) {
-      console.error("Profile update failed:", error);
-      alert("Error updating profile. Try again.");
+      console.error("Profile setup failed:", error);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-500 to-purple-600 w-full">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">Set Up Your Profile</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Complete Your Profile</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="number"
-            placeholder="Enter your age"
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-          />
+          {/* Age Input */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Age:</label>
+            <input
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              required
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+            />
+          </div>
 
-          <div className="mt-4">
-            <p className="text-lg font-semibold">Select Subjects:</p>
-            <div className="flex gap-4 mt-2">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  value="Maths"
-                  onChange={() => handleSubjectChange("Maths")}
-                  checked={subjects.includes("Maths")}
-                />
-                Maths
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  value="Science"
-                  onChange={() => handleSubjectChange("Science")}
-                  checked={subjects.includes("Science")}
-                />
-                Science
-              </label>
+          {/* Study Level */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Study Level:</label>
+            <select
+              value={studyLevel}
+              onChange={(e) => setStudyLevel(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+            >
+              <option value="school">School</option>
+              <option value="college">College</option>
+            </select>
+          </div>
+
+          {/* Stream */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Stream:</label>
+            <select
+              value={stream}
+              onChange={(e) => setStream(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+            >
+              <option value="science">Science</option>
+              <option value="commerce">Commerce</option>
+              <option value="arts">Arts</option>
+            </select>
+          </div>
+
+          {/* Subjects Selection */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Subjects:</label>
+            <div className="flex flex-wrap gap-2">
+              {["Maths", "Physics", "Chemistry", "Biology"].map((subject) => (
+                <label
+                  key={subject}
+                  className={`cursor-pointer px-3 py-1 border rounded-md ${
+                    subjects.includes(subject)
+                      ? "bg-blue-500 text-white border-blue-500"
+                      : "border-gray-300 text-gray-700"
+                  }`}
+                  onClick={() => handleSubjectChange(subject)}
+                >
+                  {subject}
+                </label>
+              ))}
             </div>
           </div>
 
+          {/* Preferences Selection */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Preferences:</label>
+            <div className="flex flex-wrap gap-2">
+              {["Videos", "Quizzes", "Articles"].map((pref) => (
+                <label
+                  key={pref}
+                  className={`cursor-pointer px-3 py-1 border rounded-md ${
+                    preferences.includes(pref)
+                      ? "bg-green-500 text-white border-green-500"
+                      : "border-gray-300 text-gray-700"
+                  }`}
+                  onClick={() => handlePreferenceChange(pref)}
+                >
+                  {pref}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Submit Button */}
           <button
+          
             type="submit"
-            className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition"
+            className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            Save Profile
+            Submit
           </button>
         </form>
       </div>

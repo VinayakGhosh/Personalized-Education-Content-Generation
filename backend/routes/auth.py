@@ -29,7 +29,8 @@ def signup(user: UserSignup):
     users_collection.insert_one(user_entry)
     return {"message": "User registered successfully!",
     "email": user.email,
-    "full_name": user.full_name}
+    "full_name": user.full_name,
+    }
 
 @auth_router.post("/login")
 def login(user_data: UserLogin):
@@ -41,6 +42,7 @@ def login(user_data: UserLogin):
     return {
         "message": "Login successful!",
         "token": token,
+        "user_id": str(user["_id"]),  # Send user_id in the response
         "profile_complete": user.get("profile_complete", False)  # Return profile status
     }
     
