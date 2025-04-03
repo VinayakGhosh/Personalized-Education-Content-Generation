@@ -25,6 +25,20 @@ export const loginUser = async (userData) => {
   }
 };
 
+// User profile collection 
+export const updateUserProfile = async (profileData) => {
+  const token = localStorage.getItem("token");
+  try {
+    await axios.post(`${API_URL}/profile/setup`, profileData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error;
+  }
+};
+
+
 
 //chat api call
 export const sendChatPrompt = async (message, mode) => {

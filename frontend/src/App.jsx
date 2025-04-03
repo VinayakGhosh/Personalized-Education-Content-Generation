@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChatPage from "./pages/ChatPage";
+import ProfileSetup from "./pages/ProfileSetup";
 import ProtectedRoute from "./components/ProtectRoute"; // Import ProtectedRoute
 
 const App = () => {
@@ -13,6 +14,15 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route 
+            path="/profile-setup" 
+            element={ 
+              <ProfileSetup />
+            
+            } 
+            />
+          
+
           {/* Protect ChatPage route */}
           <Route
             path="/chat"
