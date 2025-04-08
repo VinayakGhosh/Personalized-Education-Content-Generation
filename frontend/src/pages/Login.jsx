@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/api"; // Import API function
+import { loginUser, getUserProfile } from "../api/api"; // Import API function
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,8 +18,12 @@ const Login = () => {
       const response = await loginUser({ email, password });
       localStorage.setItem("token", response.token); // Store JWT token
       localStorage.setItem("user_id", response.user_id);
-      console.log("userId", response.user_id)
+      console.log("userId", response.user_id);
       alert(response.message); // Show success message
+
+      // Fetch full user profile
+      const userProfile = await getUserProfile(response.token);
+      localStorage.setItem("userData", JSON.stringify(userProfile)); // store profile
 
       if (response.profile_complete) {
         navigate("/chat"); // Redirect to chat if profile is complete

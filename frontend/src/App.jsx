@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import ChatPage from "./pages/ChatPage";
 import ProfileSetup from "./pages/ProfileSetup";
 import ProtectedRoute from "./components/ProtectRoute"; // Import ProtectedRoute
+import SubjectSelectionPage from "./pages/SubjectSelectionPage";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             
             } 
             />
+            <Route path="/select-subject" element={<SubjectSelectionPage />} />
           
 
           {/* Protect ChatPage route */}

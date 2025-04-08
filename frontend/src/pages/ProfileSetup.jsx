@@ -37,7 +37,7 @@ const ProfileSetup = () => {
         {user_id:userId, age, study_level: studyLevel, stream, subjects, preferences },
         token
       );
-      navigate("/chat"); // Redirect to chat after profile setup
+      navigate("/select-subject"); // Redirect to subject selection page
     } catch (error) {
       console.error("Profile setup failed:", error);
     }

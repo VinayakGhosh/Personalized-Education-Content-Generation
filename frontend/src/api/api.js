@@ -38,6 +38,21 @@ export const setupProfile = async (profileData) => {
   }
 };
 
+// fetch user data
+export const getUserProfile = async (token) => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/user/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error;
+  }
+};
+
 
 
 //chat api call
