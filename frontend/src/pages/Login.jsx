@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, getUserProfile } from "../api/api"; // Import API function
+import { loginUser } from "../api/api"; // Import API function
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,8 +22,7 @@ const Login = () => {
       alert(response.message); // Show success message
 
       // Fetch full user profile
-      const userProfile = await getUserProfile(response.token);
-      localStorage.setItem("userData", JSON.stringify(userProfile)); // store profile
+    
 
       if (response.profile_complete) {
         navigate("/chat"); // Redirect to chat if profile is complete

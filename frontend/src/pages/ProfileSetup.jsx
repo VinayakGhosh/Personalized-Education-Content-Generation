@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setupProfile } from "../api/api"; // API function to send profile data
+import { setupProfile, getUserProfile } from "../api/api"; // API function to send profile data
 
 const ProfileSetup = () => {
   const [age, setAge] = useState("");
@@ -12,31 +12,57 @@ const ProfileSetup = () => {
 
   const handleSubjectChange = (subject) => {
     setSubjects((prev) =>
-      prev.includes(subject) ? prev.filter((s) => s !== subject) : [...prev, subject]
+      prev.includes(subject)
+        ? prev.filter((s) => s !== subject)
+        : [...prev, subject]
     );
   };
-  console.log(age)
-  console.log(studyLevel)
-  console.log(stream)
-  console.log(subjects)
-  console.log(preferences)
+  console.log(age);
+  console.log(studyLevel);
+  console.log(stream);
+  console.log(subjects);
+  console.log(preferences);
 
   const handlePreferenceChange = (preference) => {
     setPreferences((prev) =>
-      prev.includes(preference) ? prev.filter((p) => p !== preference) : [...prev, preference]
+      prev.includes(preference)
+        ? prev.filter((p) => p !== preference)
+        : [...prev, preference]
     );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("user_id")
-    console.log("user id is: ", userId)
+    const userId = localStorage.getItem("user_id");
+    console.log("user id is: ", userId);
     try {
       await setupProfile(
-        {user_id:userId, age, study_level: studyLevel, stream, subjects, preferences },
+        {
+          user_id: userId,
+          age,
+          study_level: studyLevel,
+          stream,
+          subjects,
+          preferences,
+        },
         token
       );
+
+      // Fetch full profile after setup
+      const userProfile = {
+        user_id: userId,
+        age,
+        study_level: studyLevel,
+        stream,
+        subjects,
+        preferences,
+      }
+      console.log('userProfile', userProfile)
+
+      // Store in localStorage
+      localStorage.setItem("userData", JSON.stringify(userProfile));
+      // Navigate to subject selection
       navigate("/select-subject"); // Redirect to subject selection page
     } catch (error) {
       console.error("Profile setup failed:", error);
@@ -46,7 +72,9 @@ const ProfileSetup = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Complete Your Profile</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Complete Your Profile
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Age Input */}
           <div>
@@ -62,7 +90,9 @@ const ProfileSetup = () => {
 
           {/* Study Level */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Study Level:</label>
+            <label className="block text-gray-700 font-medium mb-1">
+              Study Level:
+            </label>
             <select
               value={studyLevel}
               onChange={(e) => setStudyLevel(e.target.value)}
@@ -75,7 +105,9 @@ const ProfileSetup = () => {
 
           {/* Stream */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Stream:</label>
+            <label className="block text-gray-700 font-medium mb-1">
+              Stream:
+            </label>
             <select
               value={stream}
               onChange={(e) => setStream(e.target.value)}
@@ -89,7 +121,9 @@ const ProfileSetup = () => {
 
           {/* Subjects Selection */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Subjects:</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Subjects:
+            </label>
             <div className="flex flex-wrap gap-2">
               {["Maths", "Physics", "Chemistry", "Biology"].map((subject) => (
                 <label
@@ -109,7 +143,9 @@ const ProfileSetup = () => {
 
           {/* Preferences Selection */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Preferences:</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Preferences:
+            </label>
             <div className="flex flex-wrap gap-2">
               {["Videos", "Quizzes", "Articles"].map((pref) => (
                 <label
@@ -129,7 +165,6 @@ const ProfileSetup = () => {
 
           {/* Submit Button */}
           <button
-          
             type="submit"
             className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
