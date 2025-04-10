@@ -41,7 +41,7 @@ export const setupProfile = async (profileData) => {
 // fetch user data
 export const getUserProfile = async (token) => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/user/me", {
+    const response = await axios.get(`${API_URL}/user/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -52,6 +52,48 @@ export const getUserProfile = async (token) => {
     throw error;
   }
 };
+
+export const updateSubject = async (subject) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.patch(
+      `${API_URL}/user/profile/subject`,
+      { last_selected_subject: subject }, // request body
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data; // return parsed JSON response
+  } catch (error) {
+    // Axios error handling
+    const message =
+      error.response?.data?.detail || "Failed to update subject";
+    throw new Error(message);
+  }
+};
+
+
+
+export const getChaptersBySubject = async (subject) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/chapters/${subject}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data; // { chapters: [...] }
+  } catch (error) {
+    console.error("Error fetching chapters:", error);
+    return { chapters: [] }; // fallback on error
+  }
+};
+
 
 
 

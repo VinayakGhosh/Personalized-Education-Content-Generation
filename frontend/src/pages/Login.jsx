@@ -19,12 +19,13 @@ const Login = () => {
       localStorage.setItem("token", response.token); // Store JWT token
       localStorage.setItem("user_id", response.user_id);
       console.log("userId", response.user_id);
+      console.log(response)
       alert(response.message); // Show success message
 
       // Fetch full user profile
     
 
-      if (response.profile_complete) {
+      if (response.profile_complete ===true) {
         navigate("/chat"); // Redirect to chat if profile is complete
       } else {
         navigate("/profile-setup"); // Redirect to profile setup if not complete

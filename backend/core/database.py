@@ -11,4 +11,5 @@ client = MongoClient(MONGO_URI)
 db = client["chat_app"]  # Database name
 users_collection = db["users"]
 profiles_collection = db["profiles"]  # New Collection
+chapters_collection = db["chapters"]
 print("✅ Connected to MongoDB!")
