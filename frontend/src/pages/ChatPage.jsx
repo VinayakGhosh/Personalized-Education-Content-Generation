@@ -104,8 +104,8 @@ const ChatPage = () => {
   };
 
   const handleChapterClick = (chapter) => {
-    setInput(`Explain the chapter: ${chapter}`);
-    handleSendMessage(`Explain the chapter: ${chapter}`);
+    setInput(`Explain the topic: ${chapter} so that the concept is clear properly`);
+    handleSendMessage(`Explain the topic: ${chapter} so that the concept is clear properly`);
   };
 
   return (
@@ -124,7 +124,7 @@ const ChatPage = () => {
             {chapters.map((chapter, index) => (
               <li
                 key={index}
-                className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition"
+                className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition cursor-pointer"
                 onClick={() => handleChapterClick(chapter)}
               >
                 {chapter}
