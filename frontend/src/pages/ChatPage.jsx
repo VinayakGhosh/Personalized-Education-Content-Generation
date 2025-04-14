@@ -109,8 +109,8 @@ const ChatPage = () => {
   };
 
   const handleChapterClick = (chapter) => {
-    setInput(`Explain the chapter: ${chapter}`);
-    handleSendMessage(`Explain the chapter: ${chapter}`);
+    setInput(`Explain the topic: ${chapter} so that the concept is clear properly`);
+    handleSendMessage(`Explain the topic: ${chapter} so that the concept is clear properly`);
   };
 
   const handleViewProgress = () =>{
@@ -153,25 +153,19 @@ const ChatPage = () => {
 
       <div className="flex w-full gap-x-20  h-[100%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
         {/* Sidebar */}
-        <div className="flex flex-col w-64">
-          <div className="bg-blue-700 w-full h-15 flex items-center justify-center text-2xl font-semibold text-white cursor-pointer" 
-          onClick={handleViewProgress}
-          >View Progress</div>
-
-          <div className=" h-full bg-white border-r border-purple-500 p-4 overflow-y-auto">
-            <h3 className="text-xl font-bold mb-4">Chapters</h3>
-            <ul className="space-y-2">
-              {chapters.map((chapter, index) => (
-                <li
-                  key={index}
-                  className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition cursor-pointer"
-                  onClick={() => handleChapterClick(chapter)}
-                >
-                  {chapter}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="w-64 bg-white border-r p-4 overflow-y-auto">
+          <h3 className="text-lg font-bold mb-4">Chapters</h3>
+          <ul className="space-y-2">
+            {chapters.map((chapter, index) => (
+              <li
+                key={index}
+                className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition cursor-pointer"
+                onClick={() => handleChapterClick(chapter)}
+              >
+                {chapter}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="flex flex-col w-3xl h-[90%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
