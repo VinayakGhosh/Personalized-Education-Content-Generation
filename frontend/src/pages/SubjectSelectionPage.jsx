@@ -34,20 +34,42 @@ const SubjectSelectionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-400 to-purple-400 w-[100vw] h-screen flex flex-col items-center justify-start p-6">
-      <h2 className="text-5xl font-bold  mb-6 text-white">Choose a subject you want to learn!</h2>
-      <div className="flex flex-row flex-wrap md:justify-center gap-x-2 md:gap-x-6 w-[80%] lg:max-w-[70%] border-2 shadow-xl border-gray-200  max-h-xl h-[85%]  p-2 md:p-4 rounded-xl justify-center ">
-        {subjects.map((subject) => (
-          <button
-            key={subject}
-            onClick={() => handleSubjectClick(subject)}
-            className="bg-gradient-to-b from-blue-500 to-purple-600 hover:bg-gradient-to-b hover:from-blue-400 hover:to-purple-600 rounded-xl shadow-md hover:shadow-xl text-lg font-medium hover:text-gray-700 py-4 transition duration-200  text-white md:w-40 md:h-40 w-1/2 h-40 cursor-pointer "
-          >
+    <div className="min-h-screen w-full bg-gradient-to-b from-blue-400 to-purple-400 flex flex-col items-center justify-start p-6">
+    <h2 className="text-5xl font-bold mb-6 text-white">Your Subjects</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+      {subjects.map((subject) => (
+        <div
+          key={subject}
+          onClick={() => handleSubjectClick(subject)}
+          className="bg-white rounded-xl p-5 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer"
+        >
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
             {subject}
-          </button>
-        ))}
-      </div>
+          </h3>
+          <p className="text-gray-600 mb-4">
+            {subject === "Maths"
+              ? "Master numbers, equations and problem solving."
+              : subject === "Physics"
+              ? "Explore the laws of nature and the universe."
+              : subject === "Biology"
+              ? "Discover life, organisms, and ecosystems."
+              : subject === "Chemistry"
+              ? "Understand matter, reactions, and atoms."
+              : "Learn and explore this subject in depth."}
+          </p>
+
+          {/* Dummy Progress Bar */}
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
+            <div
+              className="bg-green-600 h-3 rounded-full transition-all duration-300"
+              style={{ width: `${Math.floor(Math.random() * 80) + 20}%` }}
+            ></div>
+          </div>
+          <span className="text-xs text-gray-500">Progress {Math.floor(Math.random() * 80) + 20}%</span>
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 

@@ -12,6 +12,8 @@ const ChatPage = () => {
   const [mode, setMode] = useState("Explain"); // Default mode
   const [selectedSubject, setSelectedSubject] = useState("");
   const [chapters, setChapters] = useState([]);
+  const [availableSubjects, setAvailableSubjects] = useState([]);
+
   const navigate = useNavigate();
 
   // Ref for the chat container
@@ -28,25 +30,28 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchChapters = async () => {
       const storedSubject = localStorage.getItem("selectedSubject");
-  
+      const userData = JSON.parse(localStorage.getItem("userData"));
+
       if (!storedSubject) {
         navigate("/select-subject");
       } else {
         setSelectedSubject(storedSubject);
-        console.log("coming here")
-        try {
-          const data = await getChaptersBySubject(storedSubject);
-          setChapters(data.chapters || []);
-        } catch (error) {
-          console.error("Failed to fetch chapters:", error);
-        }
+        setAvailableSubjects(userData.subjects || []);
+        fetchChaptersForSubject(storedSubject);
       }
     };
-  
+
     fetchChapters();
   }, []);
-  
-  
+
+  const fetchChaptersForSubject = async (subject) => {
+    try {
+      const data = await getChaptersBySubject(subject);
+      setChapters(data.chapters || []);
+    } catch (error) {
+      console.error("Failed to fetch chapters:", error);
+    }
+  };
 
   // Function to format timestamp
   const getFormattedTime = () => {
@@ -108,34 +113,70 @@ const ChatPage = () => {
     handleSendMessage(`Explain the chapter: ${chapter}`);
   };
 
+  const handleViewProgress = () =>{
+    navigate("/select-subject")
+  }
+  
+
   return (
     <div className="  w-full h-screen flex justify-center items-center ">
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition absolute top-2 right-2 cursor-pointer"
-      >
-        Logout
-      </button>
-      <div className="flex w-full gap-x-20  h-[90%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
-        {/* Sidebar */}
-        <div className="w-64 bg-white border-r p-4 overflow-y-auto">
-          <h3 className="text-lg font-bold mb-4">Chapters</h3>
-          <ul className="space-y-2">
-            {chapters.map((chapter, index) => (
-              <li
-                key={index}
-                className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition"
-                onClick={() => handleChapterClick(chapter)}
-              >
-                {chapter}
-              </li>
+      <div className="absolute top-2 right-2 flex gap-x-3 items-center justify-center ">
+        {/* Subject selection dropdown */}
+        <div className=" px-6">
+          <select
+            value={selectedSubject}
+            onChange={(e) => {
+              const newSubject = e.target.value;
+              setSelectedSubject(newSubject);
+              localStorage.setItem("selectedSubject", newSubject);
+              fetchChaptersForSubject(newSubject);
+              setMessages([]); // Optional: clear chat on subject switch
+            }}
+            className="p-2 border rounded-md bg-white text-black"
+          >
+            {availableSubjects.map((subject) => (
+              <option key={subject} value={subject}>
+                {subject}
+              </option>
             ))}
-          </ul>
+          </select>
+        </div>
+
+        {/* Log out button */}
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition  cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
+
+      <div className="flex w-full gap-x-20  h-[100%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
+        {/* Sidebar */}
+        <div className="flex flex-col w-64">
+          <div className="bg-blue-700 w-full h-15 flex items-center justify-center text-2xl font-semibold text-white cursor-pointer" 
+          onClick={handleViewProgress}
+          >View Progress</div>
+
+          <div className=" h-full bg-white border-r border-purple-500 p-4 overflow-y-auto">
+            <h3 className="text-xl font-bold mb-4">Chapters</h3>
+            <ul className="space-y-2">
+              {chapters.map((chapter, index) => (
+                <li
+                  key={index}
+                  className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition cursor-pointer"
+                  onClick={() => handleChapterClick(chapter)}
+                >
+                  {chapter}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="flex flex-col w-3xl h-[90%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
           {/* Chat Header */}
-          <div className="bg-[#4F959D] text-white text-center py-4 text-lg font-semibold shadow-md">
+          <div className="bg-blue-700 text-white text-center py-4 text-lg font-semibold shadow-md">
             Chat Assistant
             {selectedSubject && (
               <span className="text-sm italic text-gray-200">
@@ -160,7 +201,7 @@ const ChatPage = () => {
                 <div
                   className={`p-3 max-w-[75%] text-sm rounded-lg shadow-md ${
                     msg.sender === "user"
-                      ? "bg-[#4F959D] text-white rounded-br-none"
+                      ? "bg-blue-500 text-white rounded-br-none"
                       : "bg-gray-300 text-black rounded-bl-none"
                   }`}
                   style={{ whiteSpace: "pre-line" }}
@@ -179,7 +220,7 @@ const ChatPage = () => {
           <div className="flex items-center p-4 bg-white border-t shadow-md">
             {/* Mode Selector */}
             <select
-              className="p-3 border rounded-lg mr-3 bg-gray-200 focus:ring-2 focus:ring-blue-400"
+              className="p-3  rounded-lg mr-3 bg-gray-200 focus:ring-2 focus:ring-blue-400"
               value={mode}
               onChange={(e) => setMode(e.target.value)}
             >
@@ -199,7 +240,7 @@ const ChatPage = () => {
 
             <button
               onClick={handleSendMessage}
-              className="ml-3 mt-1 p-4 bg-[#4F959D] text-white rounded-full hover:bg-[#205781] transition duration-200 cursor-pointer"
+              className="ml-3 mt-1 p-4 bg-blue-700 text-white rounded-full hover:bg-[#205781] transition duration-200 cursor-pointer"
             >
               {loadingResponse ? (
                 <ClipLoader color={"white"} size={20} />
