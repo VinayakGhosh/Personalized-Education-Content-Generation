@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, Body
-from models.user import Profile
+from models.user import Profile, ProgressUpdate
 from core.database import profiles_collection, users_collection
 from bson import ObjectId
 from utils.jwt_utils import get_current_user
@@ -50,6 +50,8 @@ async def get_my_profile(current_user: dict = Depends(get_current_user)):
     }
 print(get_current_user)
 
+
+# Update profile subject
 @profile_router.patch("/profile/subject")
 async def update_last_selected_subject(
     subject_data: dict = Body(...),
@@ -74,6 +76,9 @@ async def update_last_selected_subject(
         raise HTTPException(status_code=404, detail="Profile not found.")
 
     return {"message": "Subject updated successfully."}
+
+
+# Update subject progress
 
 
 @profile_router.get("/debug/profile")

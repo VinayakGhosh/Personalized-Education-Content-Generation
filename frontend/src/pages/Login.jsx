@@ -19,13 +19,12 @@ const Login = () => {
       localStorage.setItem("token", response.token); // Store JWT token
       localStorage.setItem("user_id", response.user_id);
       console.log("userId", response.user_id);
-      console.log(response)
+      console.log(response);
       alert(response.message); // Show success message
 
       // Fetch full user profile
-    
 
-      if (response.profile_complete ===true) {
+      if (response.profile_complete === true) {
         navigate("/chat"); // Redirect to chat if profile is complete
       } else {
         navigate("/profile-setup"); // Redirect to profile setup if not complete
@@ -44,6 +43,7 @@ const Login = () => {
         {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
           <input
+            required
             type="email"
             placeholder="Email"
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -51,6 +51,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
+            required
             type="password"
             placeholder="Password"
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

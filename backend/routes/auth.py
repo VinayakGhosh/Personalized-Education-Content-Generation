@@ -7,7 +7,7 @@ from utils.jwt_utils import create_access_token
 auth_router = APIRouter()
 
 @auth_router.post("/signup")
-def signup(user: UserSignup):
+def user_signup(user: UserSignup):
     """API to register a new user."""
     # Check if the user already exists
     existing_user = users_collection.find_one({"email": user.email})
@@ -33,7 +33,7 @@ def signup(user: UserSignup):
     }
 
 @auth_router.post("/login")
-def login(user_data: UserLogin):
+def user_login(user_data: UserLogin):
     user = users_collection.find_one({"email": user_data.email})
     if not user or not verify_password(user_data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Invalid email or password.")

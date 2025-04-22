@@ -109,14 +109,17 @@ const ChatPage = () => {
   };
 
   const handleChapterClick = (chapter) => {
-    setInput(`Explain the topic: ${chapter} so that the concept is clear properly`);
-    handleSendMessage(`Explain the topic: ${chapter} so that the concept is clear properly`);
+    setInput(
+      `Explain the topic: ${chapter} so that the concept is clear properly`
+    );
+    handleSendMessage(
+      `Explain the topic: ${chapter} so that the concept is clear properly`
+    );
   };
 
-  const handleViewProgress = () =>{
-    navigate("/select-subject")
-  }
-  
+  const handleViewProgress = () => {
+    navigate("/select-subject");
+  };
 
   return (
     <div className="  w-full h-screen flex justify-center items-center ">
@@ -153,19 +156,23 @@ const ChatPage = () => {
 
       <div className="flex w-full gap-x-20  h-[100%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">
         {/* Sidebar */}
-        <div className="w-64 bg-white border-r p-4 overflow-y-auto">
-          <h3 className="text-lg font-bold mb-4">Chapters</h3>
-          <ul className="space-y-2">
-            {chapters.map((chapter, index) => (
-              <li
-                key={index}
-                className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition cursor-pointer"
-                onClick={() => handleChapterClick(chapter)}
-              >
-                {chapter}
-              </li>
-            ))}
-          </ul>
+        <div className="flex flex-col ">
+          <div className="p-3 bg-blue-700 text-white text-xl font-medium hover:bg-blue-600 cursor-pointer text-center" onClick={handleViewProgress} > View Progress</div>
+
+          <div className="w-64 bg-white border-r p-4 overflow-y-auto h-full">
+            <h3 className="text-lg font-bold mb-4">Chapters</h3>
+            <ul className="space-y-2">
+              {chapters.map((chapter, index) => (
+                <li
+                  key={index}
+                  className="block w-full text-left p-2 mb-2 bg-white rounded hover:bg-gray-200 transition cursor-pointer"
+                  onClick={() => handleChapterClick(chapter)}
+                >
+                  {chapter}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="flex flex-col w-3xl h-[90%] bg-gray-100 rounded-lg shadow-lg overflow-hidden">

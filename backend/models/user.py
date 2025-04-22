@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 class UserSignup(BaseModel):
     email: EmailStr
@@ -16,3 +16,8 @@ class Profile(BaseModel):
     study_level: str  # e.g., "School", "College"
     stream: Optional[str] = None  # e.g., "Science", "Commerce", "Arts"
     subjects: List[str]  # e.g., ["Maths", "Physics"]
+    progress: Optional[Dict[str, int]] = {}  # {"Maths": 60, "Physics": 80}
+
+class ProgressUpdate(BaseModel):
+    subject: str
+    progress: int
