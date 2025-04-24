@@ -147,7 +147,7 @@ const ProfileSetup = () => {
               Preferences:
             </label>
             <div className="flex flex-wrap gap-2">
-              {["Videos", "Quizzes", "Articles"].map((pref) => (
+              {["Tests", "Quizzes"].map((pref) => (
                 <label
                   key={pref}
                   className={`cursor-pointer px-3 py-1 border rounded-md ${

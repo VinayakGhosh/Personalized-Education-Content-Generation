@@ -78,7 +78,6 @@ async def update_last_selected_subject(
     return {"message": "Subject updated successfully."}
 
 
-# Update subject progress
 
 
 @profile_router.get("/debug/profile")
@@ -90,3 +89,32 @@ async def debug_profile(current_user: dict = Depends(get_current_user)):
     print("DEBUG Profile:", profile)
     
     return {"user_id": user_id, "profile": profile}
+
+
+# Update subject progress
+@profile_router.patch("/subject/progress")
+async def update_subject_progress(
+    progress_data: ProgressUpdate,
+    current_user: dict = Depends(get_current_user)
+):
+    user_id = str(current_user["_id"])
+
+    result = profiles_collection.update_one(
+        {"user_id": user_id},
+        {"$set": {f"progress.{progress_data.subject}": progress_data.progress}}
+    )
+
+    if result.modified_count == 0:
+        raise HTTPException(status_code=400, detail="Progress update failed.")
+
+    return {"message": "Subject progress updated successfully."}
+
+@profile_router.get("/subject/progress")
+async def get_subject_progress(current_user: dict = Depends(get_current_user)):
+    user_id = str(current_user["_id"])
+    profile = profiles_collection.find_one({"user_id": user_id})
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found.")
+
+    return {"progress": profile.get("progress", {})}
