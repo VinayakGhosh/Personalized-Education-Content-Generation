@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/api"; // Import API function
+import { loginUser, getUserProfile } from "../api/api"; // Import API function
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,14 +20,18 @@ const Login = () => {
       localStorage.setItem("user_id", response.user_id);
       console.log("userId", response.user_id);
       console.log(response);
-      alert(response.message); // Show success message
+      // alert(response.message); // Show success message
 
       // Fetch full user profile
 
       if (response.profile_complete === true) {
+        console.log('entering here')
+        const response = await getUserProfile(response.token)
+        console.log('then here')
+
         navigate("/chat"); // Redirect to chat if profile is complete
       } else {
-        navigate("/profile-setup"); // Redirect to profile setup if not complete
+        navigate("/profile-setup-1"); // Redirect to first profile setup page
       }
     } catch (err) {
       setError(err.detail || "Login failed");
