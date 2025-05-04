@@ -16,6 +16,7 @@ class Profile(BaseModel):
     study_level: str  # e.g., "School", "College"
     stream: Optional[str] = None  # e.g., "Science", "Commerce", "Arts"
     subjects: List[str]  # e.g., ["Maths", "Physics"]
+    preferences: List[str] = []  # e.g., ["Tests", "Quizzes"]
     progress: Optional[Dict[str, int]] = {}  # {"Maths": 60, "Physics": 80}
 
 class ProgressUpdate(BaseModel):
