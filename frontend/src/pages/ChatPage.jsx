@@ -30,7 +30,9 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchChapters = async () => {
       const storedSubject = localStorage.getItem("selectedSubject");
+      console.log("storedSubject", storedSubject);
       const userData = JSON.parse(localStorage.getItem("userData"));
+      console.log("userData", userData);
 
       if (!storedSubject) {
         navigate("/select-subject");
