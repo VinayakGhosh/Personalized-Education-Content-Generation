@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/api"; // Import API function
+import { loginUser, getUserProfile } from "../api/api"; // Import API function
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,19 +15,21 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await loginUser({ email, password });
-      localStorage.setItem("token", response.token); // Store JWT token
-      localStorage.setItem("user_id", response.user_id);
-      console.log("userId", response.user_id);
-      console.log(response);
-      alert(response.message); // Show success message
+      const loginResponse = await loginUser({ email, password });
+      localStorage.setItem("token", loginResponse.token); // Store JWT token
+      localStorage.setItem("user_id", loginResponse.user_id);
+      console.log("userId", loginResponse.user_id);
+      console.log(loginResponse);
 
-      // Fetch full user profile
-
-      if (response.profile_complete === true) {
+      if (loginResponse.profile_complete === true) {
+        console.log('Fetching user profile...');
+        const profileResponse = await getUserProfile(loginResponse.token);
+        console.log('Profile response:', profileResponse);
+        localStorage.setItem("userData", JSON.stringify(profileResponse));
+        localStorage.setItem("selectedSubject", profileResponse.last_selected_subject);
         navigate("/chat"); // Redirect to chat if profile is complete
       } else {
-        navigate("/profile-setup"); // Redirect to profile setup if not complete
+        navigate("/profile-setup-1"); // Redirect to first profile setup page
       }
     } catch (err) {
       setError(err.detail || "Login failed");
