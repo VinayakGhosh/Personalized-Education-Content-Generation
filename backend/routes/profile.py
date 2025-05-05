@@ -66,7 +66,7 @@ async def setup_profile(
     # Convert profile to dict and ensure all fields are included
     profile_data = profile.dict()
     profile_data.update({
-        "preferences": profile_data.get("preferences", []),
+        # "preferences": profile_data.get("preferences", []),
         "progress": {}  # Initialize empty progress tracking
     })
 
@@ -98,10 +98,14 @@ async def get_my_profile(current_user: dict = Depends(get_current_user_from_toke
         "name": current_user.get("name", ""),
         "isProfileComplete": current_user.get("profile_complete", False),
         "age": profile.get("age", ""),
+        "highest_education": profile.get("highest_education", ""),
+        "available_time": profile.get("available_time", ""),
         "study_level": profile.get("study_level", ""),
-        "stream": profile.get("stream", ""),
+        "study_goal": profile.get("study_goal", ""),
         "subjects": profile.get("subjects", []),
-        "preferences": profile.get("preferences", []),
+        "content_preferences": profile.get("content_preferences", []),
+        "language_complexity": profile.get("language_complexity", ""),
+        "preferred_tone": profile.get("preferred_tone", ""),
         "last_selected_subject": profile.get("last_selected_subject", None),
         "progress": profile.get("progress", {})
     }

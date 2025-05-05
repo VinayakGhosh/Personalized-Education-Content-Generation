@@ -119,9 +119,9 @@ const ProfileSetup3 = () => {
               onChange={(e) => setLanguageComplexity(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
-              <option value="simple">Simple</option>
-              <option value="academic">Academic</option>
-              <option value="technical">Technical</option>
+              <option value="simple">Simple and Easy</option>
+              <option value="academic">Academically inclined Language</option>
+              <option value="technical">Technical and Complex</option>
             </select>
           </div>
 

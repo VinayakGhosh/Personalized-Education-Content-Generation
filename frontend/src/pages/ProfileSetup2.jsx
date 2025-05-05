@@ -91,7 +91,7 @@ const ProfileSetup2 = () => {
           {/* Study Level Selection */}
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Your Study Level:
+              Study Level:
             </label>
             <select
               value={studyLevel}
@@ -108,16 +108,16 @@ const ProfileSetup2 = () => {
           {/* Study Goal Selection */}
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Your Study Goal:
+              Your Goal:
             </label>
             <select
               value={studyGoal}
               onChange={(e) => setStudyGoal(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
-              <option value="preparing-for-exam">Preparing for Exam</option>
-              <option value="general-awareness">Learning for General Awareness</option>
-              <option value="updating-knowledge">Updating Myself with New Subjects</option>
+              <option value="preparing for an exam">Preparing for Exam</option>
+              <option value="general awareness">Learning for General Awareness</option>
+              <option value="updating knowledge">Updating Myself with New Subjects</option>
             </select>
           </div>
 
