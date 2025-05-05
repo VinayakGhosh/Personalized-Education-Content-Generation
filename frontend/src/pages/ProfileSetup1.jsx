@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const ProfileSetup1 = () => {
   const [age, setAge] = useState("");
-  const [studyLevel, setStudyLevel] = useState("school");
+  const [highestEducation, setHighestEducation] = useState("school");
+  const [availableTime, setAvailableTime] = useState("1-2");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -11,7 +12,8 @@ const ProfileSetup1 = () => {
     // Store in localStorage temporarily
     localStorage.setItem("profileData", JSON.stringify({
       age,
-      study_level: studyLevel
+      highest_education: highestEducation,
+      available_time: availableTime
     }));
     // Navigate to next step
     navigate("/profile-setup-2");
@@ -38,19 +40,37 @@ const ProfileSetup1 = () => {
             />
           </div>
 
-          {/* Study Level */}
+          {/* Highest Education */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
-              Study Level:
+              Highest Education:
             </label>
             <select
-              value={studyLevel}
-              onChange={(e) => setStudyLevel(e.target.value)}
+              value={highestEducation}
+              onChange={(e) => setHighestEducation(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
               <option value="school">School</option>
               <option value="college">College</option>
-              <option value="university">University</option>
+              <option value="masters">Masters</option>
+              <option value="phd">PhD</option>
+            </select>
+          </div>
+
+          {/* Available Time */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Available Study Time (per day):
+            </label>
+            <select
+              value={availableTime}
+              onChange={(e) => setAvailableTime(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+            >
+              <option value="1-2">1-2 hours</option>
+              <option value="2-4">2-4 hours</option>
+              <option value="4-8">4-8 hours</option>
+              <option value="8+">More than 8 hours</option>
             </select>
           </div>
 
@@ -67,4 +87,4 @@ const ProfileSetup1 = () => {
   );
 };
 
-export default ProfileSetup1; 
+export default ProfileSetup1;

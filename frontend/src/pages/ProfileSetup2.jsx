@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 const ProfileSetup2 = () => {
   const [stream, setStream] = useState("science");
   const [subjects, setSubjects] = useState([]);
+  const [studyLevel, setStudyLevel] = useState("novice");
+  const [studyGoal, setStudyGoal] = useState("preparing-for-exam");
   const navigate = useNavigate();
 
   // Define subjects for each stream
@@ -41,8 +43,9 @@ const ProfileSetup2 = () => {
     // Update with new data
     localStorage.setItem("profileData", JSON.stringify({
       ...existingData,
-      stream,
-      subjects
+      subjects,
+      study_level: studyLevel,
+      study_goal: studyGoal
     }));
     // Navigate to next step
     navigate("/profile-setup-3");
@@ -59,22 +62,7 @@ const ProfileSetup2 = () => {
           Academic Information
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Stream */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Stream:
-            </label>
-            <select
-              value={stream}
-              onChange={(e) => setStream(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
-            >
-              <option value="science">Science</option>
-              <option value="commerce">Commerce</option>
-              <option value="arts">Arts</option>
-            </select>
-          </div>
-
+          
           {/* Subjects Selection */}
           <div>
             <label className="block text-gray-700 font-medium mb-2">
@@ -98,6 +86,39 @@ const ProfileSetup2 = () => {
             <p className="text-sm text-gray-500 mt-2">
               Select at least one subject
             </p>
+          </div>
+
+          {/* Study Level Selection */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Your Study Level:
+            </label>
+            <select
+              value={studyLevel}
+              onChange={(e) => setStudyLevel(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+            >
+              <option value="novice">Novice</option>
+              <option value="basic">Basic</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+
+          {/* Study Goal Selection */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Your Study Goal:
+            </label>
+            <select
+              value={studyGoal}
+              onChange={(e) => setStudyGoal(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+            >
+              <option value="preparing-for-exam">Preparing for Exam</option>
+              <option value="general-awareness">Learning for General Awareness</option>
+              <option value="updating-knowledge">Updating Myself with New Subjects</option>
+            </select>
           </div>
 
           {/* Navigation Buttons */}
@@ -127,4 +148,4 @@ const ProfileSetup2 = () => {
   );
 };
 
-export default ProfileSetup2; 
+export default ProfileSetup2;
