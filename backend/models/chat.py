@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from typing import List, Literal
 
 class ChatMessage(BaseModel):
-    role: Literal["user", "assistant"]
-    content: str
+    sender: Literal["user", "bot"]
+    text: str
 
 class ChatHistory(BaseModel):
     subject: str

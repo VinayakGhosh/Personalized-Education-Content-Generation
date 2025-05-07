@@ -42,7 +42,7 @@ def generate_content(request: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@chat_router.get("/chat/history/{subject}")
+@chat_router.get("/history/{subject}")
 async def get_chat_history(subject: str, current_user: dict = Depends(get_current_user)):
     user_id = str(current_user["_id"])
     chat_doc = chats_collection.find_one({"user_id": user_id, "subject": subject})
@@ -52,23 +52,27 @@ async def get_chat_history(subject: str, current_user: dict = Depends(get_curren
 
     return {"messages": chat_doc.get("messages", [])}
 
-@chat_router.post("/chat/save")
+@chat_router.post("/chatSave")
 async def save_chat_message(chat: ChatHistory, current_user: dict = Depends(get_current_user)):
     user_id = str(current_user["_id"])
+    message_dicts = [msg.dict() for msg in chat.messages]
     existing_chat = chats_collection.find_one({"user_id": user_id, "subject": chat.subject})
 
     if existing_chat:
         # Append to existing
         chats_collection.update_one(
             {"user_id": user_id, "subject": chat.subject},
-            {"$push": {"messages": {"$each": chat.messages}}, "$set": {"updated_at": datetime.utcnow()}}
+            {
+                "$push": {"messages": {"$each": message_dicts}},
+                "$set": {"updated_at": datetime.utcnow()}
+            }
         )
     else:
         # New chat document
         chats_collection.insert_one({
             "user_id": user_id,
             "subject": chat.subject,
-            "messages": chat.messages,
+            "messages": message_dicts,
             "updated_at": datetime.utcnow()
         })
 

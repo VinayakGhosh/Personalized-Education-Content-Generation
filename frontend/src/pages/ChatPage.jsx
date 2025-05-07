@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { FiSend } from "react-icons/fi";
-import { sendChatPrompt, getChaptersBySubject } from "../api/api";
+import { sendChatPrompt, getChaptersBySubject, getChatHistory, saveChatHistory} from "../api/api";
 import ClipLoader from "react-spinners/ClipLoader";
 import { marked } from "marked";
 import { useNavigate } from "react-router-dom";
@@ -46,6 +46,21 @@ const ChatPage = () => {
     fetchChapters();
   }, []);
 
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (!selectedSubject) return;
+      try {
+        const history = await getChatHistory(selectedSubject);
+        setMessages(history || []);
+      } catch (error) {
+        console.error("Error fetching chat history:", error);
+      }
+    };
+  
+    fetchHistory();
+  }, [selectedSubject]);
+  
+
   const fetchChaptersForSubject = async (subject) => {
     try {
       const data = await getChaptersBySubject(subject);
@@ -54,6 +69,7 @@ const ChatPage = () => {
       console.error("Failed to fetch chapters:", error);
     }
   };
+
 
   // Function to format timestamp
   const getFormattedTime = () => {
@@ -67,38 +83,59 @@ const ChatPage = () => {
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
-
+  
+    const timestamp = getFormattedTime();
     const userMessage = {
       text: input,
       sender: "user",
       mode,
-      timestamp: getFormattedTime(),
+      timestamp,
     };
-    setMessages((prev) => [...prev, userMessage]);
-
+  
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInput("");
-
+  
+    // Save user message to DB
+    try {
+      const saveUsermsg = [{
+        sender: "user",
+        text: input,
+      }]
+      await saveChatHistory(selectedSubject, saveUsermsg);
+    } catch (error) {
+      console.error("Failed to save user message:", error);
+    }
+  
     try {
       setLoadingResponse(true);
-      const botResponse = await sendChatPrompt(input, mode, selectedSubject);
-      setMessages((prev) => [
-        ...prev,
-        { text: botResponse, sender: "bot", timestamp: getFormattedTime() },
-      ]);
+      const botReplyText = await sendChatPrompt(input, mode, selectedSubject);
+  
+      const botMessage = {
+        text: botReplyText,
+        sender: "bot",
+        timestamp: getFormattedTime(),
+      };
+  
+      const finalMessages = [...updatedMessages, botMessage];
+      setMessages(finalMessages);
+  
+      // Save bot message to DB
+      const saveBotmsg = [{
+        sender: "bot",
+        text: botReplyText,
+      }]
+      await saveChatHistory(selectedSubject, saveBotmsg);
+
+      
     } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: "Error getting response!",
-          sender: "bot",
-          timestamp: getFormattedTime(),
-        },
-      ]);
-      console.error("error with chat response");
+      console.error("Chat error:", error);
     } finally {
       setLoadingResponse(false);
+      console.log("show messages", messages)
     }
   };
+  
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
