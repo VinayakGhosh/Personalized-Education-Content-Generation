@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/profile.css";
 
 const ProfileSetup1 = () => {
   const [age, setAge] = useState("");
@@ -20,7 +21,7 @@ const ProfileSetup1 = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="profile-setup-class flex items-center justify-center min-h-screen bg-gray-100 p-6 w-full ">
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Basic Information
@@ -77,7 +78,7 @@ const ProfileSetup1 = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            className="px-8 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-300 cursor-pointer"
           >
             Next
           </button>
