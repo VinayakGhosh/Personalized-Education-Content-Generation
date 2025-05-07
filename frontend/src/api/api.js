@@ -76,8 +76,7 @@ export const updateSubject = async (subject) => {
   }
 };
 
-
-
+// get chapters by subject
 export const getChaptersBySubject = async (subject) => {
   try {
     const token = localStorage.getItem("token");
@@ -94,6 +93,35 @@ export const getChaptersBySubject = async (subject) => {
   }
 };
 
+
+// get chat history
+export const getChatHistory = async (subject) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/chat/history/${subject}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data.messages || [];
+  } catch (error) {
+    console.error("Error fetching chat history:", error);
+    return [];
+  }
+};
+
+// save chat history
+export const saveChatHistory = async (subject, messages) => {
+  try {
+    const token = localStorage.getItem("token");
+    await axios.post(
+      `${API_URL}/chat/chatSave`,
+      { subject, messages },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  } catch (error) {
+    console.error("Error saving chat history:", error);
+    throw error;
+  }
+};
 
 
 

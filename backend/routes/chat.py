@@ -1,7 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from langchain_ollama import OllamaLLM
 from dotenv import load_dotenv
+from models.chat import ChatHistory, ChatMessage
+from core.database import chats_collection
+from utils.jwt_utils import get_current_user
+from bson import ObjectId
+from datetime import datetime
 import os
 
 # Load environment variables
@@ -36,3 +41,39 @@ def generate_content(request: ChatRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@chat_router.get("/history/{subject}")
+async def get_chat_history(subject: str, current_user: dict = Depends(get_current_user)):
+    user_id = str(current_user["_id"])
+    chat_doc = chats_collection.find_one({"user_id": user_id, "subject": subject})
+
+    if not chat_doc:
+        return {"messages": []}
+
+    return {"messages": chat_doc.get("messages", [])}
+
+@chat_router.post("/chatSave")
+async def save_chat_message(chat: ChatHistory, current_user: dict = Depends(get_current_user)):
+    user_id = str(current_user["_id"])
+    message_dicts = [msg.dict() for msg in chat.messages]
+    existing_chat = chats_collection.find_one({"user_id": user_id, "subject": chat.subject})
+
+    if existing_chat:
+        # Append to existing
+        chats_collection.update_one(
+            {"user_id": user_id, "subject": chat.subject},
+            {
+                "$push": {"messages": {"$each": message_dicts}},
+                "$set": {"updated_at": datetime.utcnow()}
+            }
+        )
+    else:
+        # New chat document
+        chats_collection.insert_one({
+            "user_id": user_id,
+            "subject": chat.subject,
+            "messages": message_dicts,
+            "updated_at": datetime.utcnow()
+        })
+
+    return {"message": "Chat saved successfully."}

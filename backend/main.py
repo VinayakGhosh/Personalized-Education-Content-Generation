@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Load Ollama model from .env
-model_name = os.getenv("OLLAMA_MODEL", "llama3")
+model_name = os.getenv("OLLAMA_MODEL", "mistral")
 llm = OllamaLLM(model=model_name)
 
 # Include routes
