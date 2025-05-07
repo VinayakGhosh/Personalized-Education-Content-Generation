@@ -76,8 +76,7 @@ export const updateSubject = async (subject) => {
   }
 };
 
-
-
+// get chapters by subject
 export const getChaptersBySubject = async (subject) => {
   try {
     const token = localStorage.getItem("token");
@@ -94,6 +93,25 @@ export const getChaptersBySubject = async (subject) => {
   }
 };
 
+
+// get chat history
+export const getChatHistory = async (subject) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${API_URL}/chat/history/${subject}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data.messages;
+};
+
+// save chat history
+export const saveChatHistory = async (subject, messages) => {
+  const token = localStorage.getItem("token");
+  await axios.post(
+    `${API_URL}/chat/save`,
+    { subject, messages },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+};
 
 
 

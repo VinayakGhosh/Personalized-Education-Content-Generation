@@ -1,6 +1,6 @@
 #! /bin/bash
+set -e
 
-deactivate 
 source personalizedVenv/Scripts/activate
 
 uvicorn main:app --reload
