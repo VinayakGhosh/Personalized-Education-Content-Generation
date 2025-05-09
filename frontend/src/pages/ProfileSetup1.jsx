@@ -23,6 +23,17 @@ const ProfileSetup1 = () => {
   return (
     <div className="profile-setup-class flex items-center justify-center min-h-screen bg-gray-100 p-6 w-full ">
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between mb-2">
+            <span className="text-sm font-medium text-blue-600">Step 1 of 3</span>
+            <span className="text-sm font-medium text-gray-600">Basic Information</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '33%' }}></div>
+          </div>
+        </div>
+
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Basic Information
         </h2>

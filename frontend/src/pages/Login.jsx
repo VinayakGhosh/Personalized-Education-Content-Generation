@@ -27,7 +27,7 @@ const Login = () => {
         console.log('Profile response:', profileResponse);
         localStorage.setItem("userData", JSON.stringify(profileResponse));
         localStorage.setItem("selectedSubject", profileResponse.last_selected_subject);
-        navigate("/chat"); // Redirect to chat if profile is complete
+        navigate("/select-subject"); // Redirect to chat if profile is complete
       } else {
         navigate("/profile-setup-1"); // Redirect to first profile setup page
       }

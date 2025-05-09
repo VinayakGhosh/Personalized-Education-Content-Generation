@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/profile.css";
 
 const ProfileSetup2 = () => {
   const [stream, setStream] = useState("science");
@@ -10,8 +11,8 @@ const ProfileSetup2 = () => {
 
   // Define subjects for each stream
   const streamSubjects = {
-    science: ["Mathematics", "Physics", "Chemistry", "Biology", "Computer Science"],
-    commerce: ["Accountancy", "Business Studies", "Economics", "Mathematics", "Statistics"],
+    science: ["Maths", "Physics", "Chemistry", "Biology", "Computer Science", "Accountancy", "Business Studies", "History", "Geography","Psychology", "Sociology", "English Literature", "Economics", "Maths", "Statistics"],
+    commerce: ["Accountancy", "Business Studies", "Economics", "Maths", "Statistics"],
     arts: ["History", "Geography", "Political Science", "Psychology", "Sociology", "English Literature"]
   };
 
@@ -56,8 +57,19 @@ const ProfileSetup2 = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="profile-setup-class w-full flex items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between mb-2">
+            <span className="text-sm font-medium text-blue-600">Step 2 of 3</span>
+            <span className="text-sm font-medium text-gray-600">Academic Information</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '66%' }}></div>
+          </div>
+        </div>
+
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Academic Information
         </h2>
@@ -126,14 +138,14 @@ const ProfileSetup2 = () => {
             <button
               type="button"
               onClick={handleBack}
-              className="flex-1 bg-gray-500 text-white font-semibold py-2 rounded-md hover:bg-gray-600 transition duration-300"
+              className="flex-1 bg-gray-500 text-white font-semibold py-2 rounded-md hover:bg-gray-600 transition duration-300 cursor-pointer"
             >
               Back
             </button>
             <button
               type="submit"
               disabled={subjects.length === 0}
-              className={`flex-1 bg-blue-500 text-white font-semibold py-2 rounded-md transition duration-300 ${
+              className={`flex-1 bg-blue-500 text-white font-semibold py-2 rounded-md transition duration-300 cursor-pointer ${
                 subjects.length === 0
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-blue-600"

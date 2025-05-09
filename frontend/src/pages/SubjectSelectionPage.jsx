@@ -5,8 +5,9 @@ import { getUserProfile, updateSubject} from "../api/api";
 const SubjectSelectionPage = () => {
   const [subjects, setSubjects] = useState([]);
   const navigate = useNavigate();
+  
 
-
+console.log(localStorage.getItem("userData"))
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -36,7 +37,10 @@ const SubjectSelectionPage = () => {
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-blue-400 to-purple-400 flex flex-col items-center justify-start p-6">
     <h2 className="text-5xl font-bold mb-6 text-white">Your Subjects</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+
+    <div className="my-5 w-full max-w-6xl text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi cum eaque non iusto ipsum excepturi esse iste, exercitationem hic atque magnam fugit suscipit, repellat error repellendus repudiandae ducimus fugiat incidunt quos delectus sit perspiciatis, corporis minima! Earum, omnis aliquid eius quos ut id quia aspernatur atque, ipsam facilis, tempora exercitationem.</div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl bg-gray-100 rounded-xl p-5 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer max-h-[30rem] overflow-y-auto ">
       {subjects.map((subject) => (
         <div
           key={subject}
