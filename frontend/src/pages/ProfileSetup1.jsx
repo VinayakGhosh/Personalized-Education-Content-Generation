@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/profile.css";
+import { marked } from "marked";
+import { sendChatPrompt } from "../api/api.js";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ProfileSetup1 = () => {
   const [age, setAge] = useState("");
   const [highestEducation, setHighestEducation] = useState("school");
   const [availableTime, setAvailableTime] = useState("1-2");
+  const [greetingMessage, setGreetingMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const name = localStorage.getItem("name");
+
+  useEffect(() => {
+    const fetchGreet = async () => {
+      setLoading(true)
+      const greetPrompt = `You are a helpful assistant that greets the user when the user lands in this page, 
+      First of all greet the user by saying, "Hello ${name.split(" ")[0]}, welcome to EduChat!", use the first name only.
+      Then be funny and informative about yourself.
+      The overall content should be till 30 words`
+      const mode = null
+      const temperature = 1
+      const response = await sendChatPrompt(greetPrompt, mode, temperature);
+      console.log("response is", response)
+      setGreetingMessage(response)
+      setLoading(false)
+    }
+    fetchGreet();
+  }, [name]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,14 +44,19 @@ const ProfileSetup1 = () => {
   };
 
   return (
-    <div className="profile-setup-class flex items-center justify-center min-h-screen bg-gray-100 p-6 w-full ">
+    <div className="profile-setup-class flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 w-full  ">
+      
+      {loading ? (<ClipLoader color={"white"} size={50} />) : (
+        <>
+        <p className="text-2xl font-bold text-center text-gray-100 mb-3 max-w-5xl" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></p>
+       <p className="text-2xl font-bold text-center text-gray-100 mb-6 max-w-3xl"> Please complete your profile to get started.</p>
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
-        <p></p>
+      
+        
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">
             <span className="text-sm font-medium text-blue-600">Step 1 of 3</span>
-            <span className="text-sm font-medium text-gray-600">Basic Information</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '33%' }}></div>
@@ -96,6 +124,9 @@ const ProfileSetup1 = () => {
           </button>
         </form>
       </div>
+      </>)}
+       
+       
     </div>
   );
 };
