@@ -23,6 +23,7 @@ const ProfileSetup1 = () => {
   return (
     <div className="profile-setup-class flex items-center justify-center min-h-screen bg-gray-100 p-6 w-full ">
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
+        <p></p>
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">

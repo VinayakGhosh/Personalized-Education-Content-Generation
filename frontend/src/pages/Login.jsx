@@ -18,6 +18,7 @@ const Login = () => {
       const loginResponse = await loginUser({ email, password });
       localStorage.setItem("token", loginResponse.token); // Store JWT token
       localStorage.setItem("user_id", loginResponse.user_id);
+      localStorage.setItem("name", loginResponse.name);
       console.log("userId", loginResponse.user_id);
       console.log(loginResponse);
 

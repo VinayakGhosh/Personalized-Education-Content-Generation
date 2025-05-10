@@ -95,7 +95,7 @@ async def get_my_profile(current_user: dict = Depends(get_current_user_from_toke
 
     return {
         "email": current_user["email"],
-        "name": current_user.get("name", ""),
+        "name": current_user.get("full_name", ""),
         "isProfileComplete": current_user.get("profile_complete", False),
         "age": profile.get("age", ""),
         "highest_education": profile.get("highest_education", ""),

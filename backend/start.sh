@@ -1,8 +1,9 @@
 #! /bin/bash
 set -e
 
-echo "Activating virtual environment"
-source venvPersonlaized/Scripts/activate
 
-echo "Starting the server"
+source venvPersonalized/Scripts/activate
+echo "Activated virtual environment"
+
+echo "Starting the server..."
 uvicorn main:app --reload

@@ -109,7 +109,7 @@ const ChatPage = () => {
   
     try {
       setLoadingResponse(true);
-      const botReplyText = await sendChatPrompt(input, mode, selectedSubject);
+      const botReplyText = await sendChatPrompt(input, mode, 0.7);
   
       const botMessage = {
         text: botReplyText,
