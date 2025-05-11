@@ -72,20 +72,20 @@ const ProfileSetup3 = () => {
         <div className="mb-8">
           <div className="flex justify-between mb-2">
             <span className="text-sm font-medium text-blue-600">Step 3 of 3</span>
-            <span className="text-sm font-medium text-gray-600">Learning Preferences</span>
+            
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '100%' }}></div>
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="roboto-flex text-2xl font-bold text-center text-gray-800 mb-4">
          Your Learning Preferences
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Preferences Selection */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
               Content Preferences:
             </label>
             <div className="flex flex-wrap gap-2">
@@ -107,7 +107,7 @@ const ProfileSetup3 = () => {
 
           {/* Tone Selection */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
               Preferred Tone:
             </label>
             <select
@@ -123,7 +123,7 @@ const ProfileSetup3 = () => {
 
           {/* Language Complexity */}
           <div>
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
               Language Complexity:
             </label>
             <select

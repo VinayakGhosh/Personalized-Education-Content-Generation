@@ -18,7 +18,7 @@ const ProfileSetup1 = () => {
     const fetchGreet = async () => {
       setLoading(true)
       const greetPrompt = `You are a helpful assistant that greets the user when the user lands in this page, 
-      First of all greet the user by saying, "Hello ${name.split(" ")[0]}, welcome to EduChat!", use the first name only.
+      First of all greet the user by saying, "Hello ${name.split(" ")[0]}, welcome to Edu-Chat!", use the first name only.
       Then be funny and informative about yourself.
       The overall content should be till 30 words`
       const mode = null
@@ -48,8 +48,8 @@ const ProfileSetup1 = () => {
       
       {loading ? (<ClipLoader color={"white"} size={50} />) : (
         <>
-        <p className="text-2xl font-bold text-center text-gray-100 mb-3 max-w-5xl" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></p>
-       <p className="text-2xl font-bold text-center text-gray-100 mb-6 max-w-3xl"> Please complete your profile to get started.</p>
+        <p className="text-2xl font-bold text-center text-yellow-300 mb-4 max-w-5xl quantico-regular " dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></p>
+       <p className="text-2xl font-bold text-center text-indigo-100 mb-2 max-w-3xl space-grotesk"> Please complete your profile to get started.</p>
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
       
         
@@ -63,13 +63,13 @@ const ProfileSetup1 = () => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="roboto-flex text-2xl font-bold text-center text-gray-800 mb-4 ">
           Basic Information
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Age Input */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Age:</label>
+            <label className="block font-mono text-base text-gray-700 font-medium mb-1">Age:</label>
             <input
               type="number"
               value={age}
@@ -83,7 +83,7 @@ const ProfileSetup1 = () => {
 
           {/* Highest Education */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
+            <label className="block font-mono text-base text-gray-700 font-medium mb-1">
               Highest Education:
             </label>
             <select
@@ -100,7 +100,7 @@ const ProfileSetup1 = () => {
 
           {/* Available Time */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
+            <label className="block font-mono text-base text-gray-700 font-medium mb-1">
               Available Study Time (per day):
             </label>
             <select
