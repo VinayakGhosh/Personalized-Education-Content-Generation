@@ -1,11 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/profile.css";
+import { marked } from "marked";
+import { sendChatPrompt } from "../api/api.js";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ProfileSetup1 = () => {
   const [age, setAge] = useState("");
   const [highestEducation, setHighestEducation] = useState("school");
   const [availableTime, setAvailableTime] = useState("1-2");
+  const [greetingMessage, setGreetingMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const name = localStorage.getItem("name");
+
+  useEffect(() => {
+    const fetchGreet = async () => {
+      setLoading(true)
+      const greetPrompt = `You are a helpful assistant that greets the user when the user lands in this page, 
+      First of all greet the user by saying, "Hello ${name.split(" ")[0]}, welcome to Edu-Chat!", use the first name only.
+      Then be funny and informative about yourself.
+      The overall content should be till 30 words`
+      const mode = null
+      const temperature = 1
+      const response = await sendChatPrompt(greetPrompt, mode, temperature);
+      console.log("response is", response)
+      setGreetingMessage(response)
+      setLoading(false)
+    }
+    fetchGreet();
+  }, [name]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,15 +44,32 @@ const ProfileSetup1 = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="profile-setup-class flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 w-full  ">
+      
+      {loading ? (<ClipLoader color={"white"} size={50} />) : (
+        <>
+        <p className="text-2xl font-bold text-center text-yellow-300 mb-4 max-w-5xl quantico-regular " dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></p>
+       <p className="text-2xl font-bold text-center text-indigo-100 mb-2 max-w-3xl space-grotesk"> Please complete your profile to get started.</p>
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+      
+        
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between mb-2">
+            <span className="text-sm font-medium text-blue-600">Step 1 of 3</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '33%' }}></div>
+          </div>
+        </div>
+
+        <h2 className="roboto-flex text-2xl font-bold text-center text-gray-800 mb-4 ">
           Basic Information
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Age Input */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Age:</label>
+            <label className="block font-mono text-base text-gray-700 font-medium mb-1">Age:</label>
             <input
               type="number"
               value={age}
@@ -42,7 +83,7 @@ const ProfileSetup1 = () => {
 
           {/* Highest Education */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
+            <label className="block font-mono text-base text-gray-700 font-medium mb-1">
               Highest Education:
             </label>
             <select
@@ -59,7 +100,7 @@ const ProfileSetup1 = () => {
 
           {/* Available Time */}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
+            <label className="block font-mono text-base text-gray-700 font-medium mb-1">
               Available Study Time (per day):
             </label>
             <select
@@ -77,12 +118,15 @@ const ProfileSetup1 = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            className="px-8 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-300 cursor-pointer"
           >
             Next
           </button>
         </form>
       </div>
+      </>)}
+       
+       
     </div>
   );
 };

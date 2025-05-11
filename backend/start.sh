@@ -1,6 +1,9 @@
 #! /bin/bash
 set -e
 
-source personalizedVenv/Scripts/activate
 
+source venvPersonalized/Scripts/activate
+echo "Activated virtual environment"
+
+echo "Starting the server..."
 uvicorn main:app --reload

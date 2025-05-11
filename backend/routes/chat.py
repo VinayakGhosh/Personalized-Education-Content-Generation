@@ -22,7 +22,8 @@ grog_api = os.getenv("GROG_API")
 
 class ChatRequest(BaseModel):
     prompt: str
-    mode: str  # New field to determine type of response
+    mode: str | None = None  # Optional field to determine type of response
+    temperature: float = 0.7
 
 
 @chat_router.post("/generate")
@@ -57,13 +58,14 @@ def generate_content(request: ChatRequest):
                 {"role": "system", "content": "You are an educational assistant."},
                 {"role": "user", "content": final_prompt}
             ],
-            "temperature": 0.7
+            "temperature": request.temperature
         }
 
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
         return {
-            "generated_text": response.json()["choices"][0]["message"]["content"]
+            "generated_text": response.json()["choices"][0]["message"]["content"],
+            "temperature": request.temperature
         }
 
     except requests.RequestException as req_err:

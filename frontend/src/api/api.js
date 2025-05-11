@@ -126,11 +126,12 @@ export const saveChatHistory = async (subject, messages) => {
 
 
 //chat api call
-export const sendChatPrompt = async (message, mode) => {
+export const sendChatPrompt = async (message, mode, temp) => {
   try {
     const response = await axios.post(`${API_URL}/chat/generate`, {
       prompt: message,
-      mode: mode, // Send the selected mode
+      mode: mode,
+      temperature: temp // Send the selected mode
     });
  console.log("response is: ", response)
     return response.data.generated_text; // Assuming backend returns { "response": "text" }

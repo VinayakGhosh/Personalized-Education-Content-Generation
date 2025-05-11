@@ -43,6 +43,7 @@ def user_login(user_data: UserLogin):
         "message": "Login successful!",
         "token": token,
         "user_id": str(user["_id"]),  # Send user_id in the response
-        "profile_complete": user.get("profile_complete", False)  # Return profile status
+        "profile_complete": user.get("profile_complete", False),  # Return profile status
+        "name": user.get("full_name", ""),
     }
     
