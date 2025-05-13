@@ -4,6 +4,7 @@ import "../styles/profile.css";
 import { marked } from "marked";
 import { sendChatPrompt } from "../api/api.js";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Bot } from "lucide-react"
 
 const ProfileSetup1 = () => {
   const [age, setAge] = useState("");
@@ -13,6 +14,7 @@ const ProfileSetup1 = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const name = localStorage.getItem("name");
+  
 
   useEffect(() => {
     const fetchGreet = async () => {
@@ -48,7 +50,12 @@ const ProfileSetup1 = () => {
       
       {loading ? (<ClipLoader color={"white"} size={50} />) : (
         <>
-        <p className="text-2xl font-bold text-center text-yellow-300 mb-4 max-w-5xl quantico-regular " dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></p>
+        <div className="text-2xl font-bold text-center text-yellow-300 mb-4 max-w-5xl quantico-regular " >
+      
+      <span><Bot className="h-12 w-12 mx-auto text-slate-300 mb-2 inline-block" /></span>
+        <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></span>
+
+        </div>
        <p className="text-2xl font-bold text-center text-indigo-100 mb-2 max-w-3xl space-grotesk"> Please complete your profile to get started.</p>
       <div className="bg-white shadow-lg rounded-lg p-8 w-xl">
       

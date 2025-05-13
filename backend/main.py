@@ -8,7 +8,11 @@ from routes.chapters import chapter_router
 import os
 from langchain_ollama import OllamaLLM
 
-app = FastAPI()
+app = FastAPI(
+    title="Edu-Chat API",
+    description="Api documentation for Edu-Chat",
+    version="0.5.2"
+)
 
 # Allow frontend requests
 app.add_middleware(
