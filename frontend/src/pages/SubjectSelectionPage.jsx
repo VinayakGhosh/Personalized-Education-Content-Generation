@@ -88,14 +88,14 @@ const SubjectSelectionPage = () => {
         
       ) : (
         <>
-          <h2 className="roboto-flex text-4xl font-bold mb-4 text-gray-200">
-            Your Subjects
-          </h2>
+          {/* <h2 className="roboto-flex text-4xl font-bold mb-4 text-gray-200">
+            Subjects
+          </h2> */}
 
           <div
             className="font-mono mt-4 mb-6 w-full max-w-7xl text-[#F1F1F1] text-justify font-semibold  "
             >
-            <p className="w-full flex items-center justify-center" ><Bot className="h-12 w-12 mx-auto text-slate-300 mb-2 inline-block" /></p>
+            <p className="w-full flex items-center justify-center" ><Bot className="h-20 w-20 mx-auto text-slate-300 mb-2 inline-block" /></p>
             <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></span>
           </div>
 

@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChatPage from "./pages/ChatPage";
+import ShowProfile from "./pages/ShowProfile";
 import ProfileSetup1 from "./pages/ProfileSetup1";
 import ProfileSetup2 from "./pages/ProfileSetup2";
 import ProfileSetup3 from "./pages/ProfileSetup3";
@@ -17,32 +18,39 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route 
-            path="/profile-setup-1" 
-            element={ 
+          <Route
+            path="/show-profile"
+            element={
+              <ProtectedRoute>
+                <ShowProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile-setup-1"
+            element={
               <ProtectedRoute>
                 <ProfileSetup1 />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/profile-setup-2" 
-            element={ 
+          <Route
+            path="/profile-setup-2"
+            element={
               <ProtectedRoute>
                 <ProfileSetup2 />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/profile-setup-3" 
-            element={ 
+          <Route
+            path="/profile-setup-3"
+            element={
               <ProtectedRoute>
                 <ProfileSetup3 />
               </ProtectedRoute>
-            } 
+            }
           />
           <Route path="/select-subject" element={<SubjectSelectionPage />} />
-          
 
           {/* Protect ChatPage route */}
           <Route
