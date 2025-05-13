@@ -4,6 +4,7 @@ import { updateSubject, sendChatPrompt } from "../api/api";
 import { marked } from "marked";
 import "../styles/subjectSelection.css";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Bot } from "lucide-react"  
 
 const SubjectSelectionPage = () => {
   const [subjects, setSubjects] = useState([]);
@@ -87,14 +88,16 @@ const SubjectSelectionPage = () => {
         
       ) : (
         <>
-          <h2 className="roboto-flex text-4xl font-bold mb-4 text-white">
+          <h2 className="roboto-flex text-4xl font-bold mb-4 text-gray-200">
             Your Subjects
           </h2>
 
           <div
-            className="font-mono mt-2 mb-5 w-full max-w-7xl text-[#F1F1F1] text-justify font-semibold  "
-            dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}
-          ></div>
+            className="font-mono mt-4 mb-6 w-full max-w-7xl text-[#F1F1F1] text-justify font-semibold  "
+            >
+            <p className="w-full flex items-center justify-center" ><Bot className="h-12 w-12 mx-auto text-slate-300 mb-2 inline-block" /></p>
+            <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></span>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl bg-white rounded-xl p-10 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer  max-h-[30rem] overflow-y-auto ">
             {subjects.map((subject) => (
