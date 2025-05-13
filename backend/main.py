@@ -11,7 +11,7 @@ from langchain_ollama import OllamaLLM
 app = FastAPI(
     title="Edu-Chat API",
     description="Api documentation for Edu-Chat",
-    version="0.5.2"
+    version="0.5.3"
 )
 
 # Allow frontend requests
