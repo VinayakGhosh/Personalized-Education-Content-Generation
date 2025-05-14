@@ -77,7 +77,7 @@ const ProfileSetup2 = () => {
           {/* Subjects Selection */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Select Your Subjects:
+              Select subjects you to study:
             </label>
             <div className="flex flex-wrap gap-2">
               {streamSubjects[stream].map((subject) => (
@@ -102,7 +102,7 @@ const ProfileSetup2 = () => {
           {/* Study Level Selection */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Study Level:
+              What level of study you would like to do:
             </label>
             <select
               value={studyLevel}
@@ -113,22 +113,25 @@ const ProfileSetup2 = () => {
               <option value="basic">Basic</option>
               <option value="intermediate">Intermediate</option>
               <option value="advanced">Advanced</option>
+              <option value="expert">Expert</option>
             </select>
           </div>
 
           {/* Study Goal Selection */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Your Goal:
+              What is your goal:
             </label>
             <select
               value={studyGoal}
               onChange={(e) => setStudyGoal(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
-              <option value="preparing for an exam">Preparing for Exam</option>
-              <option value="general awareness">Learning for General Awareness</option>
-              <option value="updating knowledge">Updating Myself with New Subjects</option>
+              <option value="exam preparation">Preparing for exam</option>
+              <option value="general awareness">Learning for general gwareness</option>
+              <option value="updating knowledge">Updating myself with new subjects</option>
+              <option value="hobby learning">Want to learn something just for hobby</option>
+              <option value="project research ">Doing research for a project</option>
             </select>
           </div>
 

@@ -94,7 +94,7 @@ const ProfileSetup1 = () => {
           {/* Highest Education */}
           <div>
             <label className="block font-mono text-base text-gray-700 font-medium mb-1">
-              Highest Education:
+              What is your Highest Education?:
             </label>
             <select
               value={highestEducation}
@@ -111,7 +111,7 @@ const ProfileSetup1 = () => {
           {/* Available Time */}
           <div>
             <label className="block font-mono text-base text-gray-700 font-medium mb-1">
-              Available Study Time (per day):
+              How much study time do you have per day?:
             </label>
             <select
               value={availableTime}
