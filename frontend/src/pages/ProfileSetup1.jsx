@@ -47,13 +47,16 @@ const ProfileSetup1 = () => {
 
   return (
     <div className="profile-setup-class flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 w-full  ">
-      
-      {loading ? (<ClipLoader color={"white"} size={50} />) : (
-        <>
+
         <div className="text-2xl font-bold text-center text-yellow-300 mb-4 max-w-5xl quantico-regular " >
       
       <span><Bot className="h-12 w-12 mx-auto text-slate-300 mb-2 inline-block" /></span>
+      {loading? (<div className="w-full text-center">
+        <ClipLoader color={"white"} size={50} />
+      </div>) : (
         <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></span>
+      )}
+        
 
         </div>
        <p className="text-2xl font-bold text-center text-indigo-100 mb-2 max-w-3xl space-grotesk"> Please complete your profile to get started.</p>
@@ -131,8 +134,7 @@ const ProfileSetup1 = () => {
           </button>
         </form>
       </div>
-      </>)}
-       
+     
        
     </div>
   );
