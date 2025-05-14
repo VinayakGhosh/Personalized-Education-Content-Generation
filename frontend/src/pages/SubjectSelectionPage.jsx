@@ -82,21 +82,20 @@ const SubjectSelectionPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-blue-600 to-purple-800 flex flex-col items-center justify-start p-6">
-      {loading ? (<div className="flex items-center justify-center h-screen">
-        <ClipLoader color={"white"} size={50} />
-      </div>
-        
-      ) : (
-        <>
-          <h2 className="roboto-flex text-4xl font-bold mb-4 text-gray-200">
-            Your Subjects
-          </h2>
-
+   
           <div
             className="font-mono mt-4 mb-6 w-full max-w-7xl text-[#F1F1F1] text-justify font-semibold  "
             >
-            <p className="w-full flex items-center justify-center" ><Bot className="h-12 w-12 mx-auto text-slate-300 mb-2 inline-block" /></p>
-            <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}></span>
+            <p className="w-full flex items-center justify-center" ><Bot className="h-20 w-20 mx-auto text-slate-300 mb-2 inline-block" /></p>
+            {loading? (<div className="w-full text-center">
+              <ClipLoader color={"white"} size={50} />
+            </div>
+              
+            ) : (
+            <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}>
+            </span>)
+            }
+            
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl bg-white rounded-xl p-10 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer  max-h-[30rem] overflow-y-auto ">
@@ -145,8 +144,6 @@ const SubjectSelectionPage = () => {
               </div>
             ))}
           </div>
-        </>
-      )}
     </div>
   );
 };

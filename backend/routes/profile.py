@@ -5,6 +5,7 @@ from core.database import profiles_collection, users_collection
 from bson import ObjectId
 from utils.jwt_utils import get_current_user, verify_token
 from typing import List, Optional
+from pydantic import BaseModel, Field
 
 profile_router = APIRouter()
 security = HTTPBearer()
@@ -108,6 +109,81 @@ async def get_my_profile(current_user: dict = Depends(get_current_user_from_toke
         "preferred_tone": profile.get("preferred_tone", ""),
         "last_selected_subject": profile.get("last_selected_subject", None),
         "progress": profile.get("progress", {})
+    }
+
+class ProfileUpdate(BaseModel):
+    age: Optional[str] = Field(None, description="User's age", example="25")
+    highest_education: Optional[str] = Field(None, description="Highest level of education completed", example="Bachelor's Degree")
+    available_time: Optional[str] = Field(None, description="Available time for study", example="2 hours per day")
+    study_level: Optional[str] = Field(None, description="Current study level", example="Intermediate")
+    study_goal: Optional[str] = Field(None, description="Study goal or objective", example="Master advanced concepts")
+    subjects: Optional[List[str]] = Field(None, description="List of subjects to study", example=["Mathematics", "Physics"])
+    content_preferences: Optional[List[str]] = Field(None, description="Preferred content types", example=["video", "text"])
+    language_complexity: Optional[str] = Field(None, description="Preferred language complexity level", example="medium")
+    preferred_tone: Optional[str] = Field(None, description="Preferred tone of content", example="formal")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "age": "25",
+                "highest_education": "Bachelor's Degree",
+                "available_time": "2 hours per day",
+                "study_level": "Intermediate",
+                "study_goal": "Master advanced concepts",
+                "subjects": ["Mathematics", "Physics"],
+                "content_preferences": ["video", "text"],
+                "language_complexity": "medium",
+                "preferred_tone": "formal"
+            }
+        }
+
+@profile_router.patch("/profile/me")
+async def update_my_profile(
+    profile_update: ProfileUpdate,
+    current_user: dict = Depends(get_current_user_from_token)
+):
+    """Update user profile information."""
+    user_id = str(current_user["_id"])
+    profile = profiles_collection.find_one({"user_id": user_id})
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found.")
+
+    # Convert Pydantic model to dict and remove None values
+    update_data = {k: v for k, v in profile_update.dict().items() if v is not None}
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No valid fields to update.")
+
+    result = profiles_collection.update_one(
+        {"user_id": user_id},
+        {"$set": update_data}
+    )
+
+    if result.modified_count == 0:
+        raise HTTPException(status_code=400, detail="No changes were made to the profile.")
+
+    # Fetch updated profile
+    updated_profile = profiles_collection.find_one({"user_id": user_id})
+    
+    return {
+        "message": "Profile updated successfully",
+        "profile": {
+            "email": current_user["email"],
+            "name": current_user.get("full_name", ""),
+            "isProfileComplete": current_user.get("profile_complete", False),
+            "age": updated_profile.get("age", ""),
+            "highest_education": updated_profile.get("highest_education", ""),
+            "available_time": updated_profile.get("available_time", ""),
+            "study_level": updated_profile.get("study_level", ""),
+            "study_goal": updated_profile.get("study_goal", ""),
+            "subjects": updated_profile.get("subjects", []),
+            "content_preferences": updated_profile.get("content_preferences", []),
+            "language_complexity": updated_profile.get("language_complexity", ""),
+            "preferred_tone": updated_profile.get("preferred_tone", ""),
+            "last_selected_subject": updated_profile.get("last_selected_subject", None),
+            "progress": updated_profile.get("progress", {})
+        }
     }
 
 @profile_router.patch("/profile/subject")

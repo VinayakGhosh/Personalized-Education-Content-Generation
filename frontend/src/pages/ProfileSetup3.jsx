@@ -86,7 +86,7 @@ const ProfileSetup3 = () => {
           {/* Preferences Selection */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Content Preferences:
+              What is your preferred type of content:
             </label>
             <div className="flex flex-wrap gap-2">
               {["Tests", "Quizzes", "Videos", "Text-based", "Interactive"].map((pref) => (
@@ -108,32 +108,38 @@ const ProfileSetup3 = () => {
           {/* Tone Selection */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Preferred Tone:
+              Preferred Tone in chat:
             </label>
             <select
               value={preferredTone}
               onChange={(e) => setPreferredTone(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
-              <option value="friendly">Friendly</option>
+              <option value="friendly and casual">Friendly and casual</option>
               <option value="formal">Formal</option>
               <option value="motivational">Motivational</option>
+              <option value="professional">Professional</option>
+              <option value="humorous">Humorous</option>
+              <option value="encouraging">Encouraging</option>
             </select>
           </div>
 
           {/* Language Complexity */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Language Complexity:
+              Expected language complexity:
             </label>
             <select
               value={languageComplexity}
               onChange={(e) => setLanguageComplexity(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
-              <option value="simple">Simple and Easy</option>
+              <option value="simple and easy">Simple and easy to understand</option>
               <option value="academic">Academically inclined Language</option>
-              <option value="technical">Technical and Complex</option>
+              <option value="technical and complex">Technical and Complex</option>
+              <option value="professional and clear">Professional and Clear</option>
+              <option value="descriptive and detailed">Descriptive and Detailed</option>
+              <option value="storytelling">Narrative or Storytelling Style</option>
             </select>
           </div>
 
