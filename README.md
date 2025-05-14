@@ -29,8 +29,9 @@ This repository has source code for Personalized Educational Content Generation 
 4) Create .env file and put this in it
     ```
           MONGO_URI=mongodb+srv://VinayakCS:VinayakCS4060@cluster0.iifdj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-             JWT_SECRET=your_secret_key
-          OLLAMA_MODEL=mistral:latest
+          JWT_SECRET=your_secret_key
+          OLLAMA_MODEL=llama3-8b-8192
+          GROG_API =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
      ```
 4) Run FastApi
      ```
