@@ -374,7 +374,7 @@ const ChatPage = () => {
           onClick={handleViewProgress}
         >
           <BarChart className="h-5 w-5" />
-          View Progress
+          View Subjects
         </button>
 
         <div className="h-px bg-slate-200 my-4 mx-4"></div>
@@ -389,11 +389,15 @@ const ChatPage = () => {
               <div key={index} className="border-b border-slate-200">
                 <button
                   className="w-full py-2 px-3 rounded-md text-left font-normal text-slate-700 hover:text-blue-700 hover:bg-purple-50 transition-colors flex items-center justify-between"
-                  onClick={() => setExpandedChapter(expandedChapter === index ? null : index)}
+                  onClick={() =>
+                    setExpandedChapter(expandedChapter === index ? null : index)
+                  }
                 >
                   <span>{chapter.name}</span>
-                  <ChevronDown 
-                    className={`h-4 w-4 transition-transform ${expandedChapter === index ? 'rotate-180' : ''}`}
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${
+                      expandedChapter === index ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
                 {expandedChapter === index && (
@@ -454,14 +458,22 @@ const ChatPage = () => {
               </div>
             )}
           </div>
-
+          <div className="flex items-center gap-2">
           <button
-            className="px-4 py-2 text-sm rounded-md border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2"
-            onClick={handleLogout}
-          >
-            <LogOut className="h-4 w-4" />
-            Logout
-          </button>
+              className="px-4 py-2 text-sm rounded-md border border-blue-200 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-colors flex items-center gap-2"
+              onClick={(e) => {navigate("/show-profile")}}
+            >
+              <User className="h-4 w-4 " />
+              Profile
+            </button>
+            <button
+              className="px-4 py-2 text-sm rounded-md border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-4 w-4" />
+              Logout
+            </button>
+          </div>
         </header>
 
         {/* Chat Area */}
@@ -518,9 +530,7 @@ const ChatPage = () => {
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}
                         components={{
-                          p: ({ children }) => (
-                            <p >{children}</p>
-                          ),
+                          p: ({ children }) => <p>{children}</p>,
                           strong: ({ children }) => (
                             <strong className="font-bold">{children}</strong>
                           ),
