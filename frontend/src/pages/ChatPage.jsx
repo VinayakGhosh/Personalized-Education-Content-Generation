@@ -1,44 +1,71 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { sendChatPrompt, getChaptersBySubject, getChatHistory, saveChatHistory } from "../api/api"
-import { marked } from "marked"
-import { useNavigate } from "react-router-dom"
-import { Send, LogOut, BookOpen, ChevronDown, BarChart, Bot, User, Loader2, ChevronUp } from "lucide-react"
+import { useState, useEffect, useRef } from "react";
+import {
+  sendChatPrompt,
+  getChaptersBySubject,
+  getChatHistory,
+  saveChatHistory,
+} from "../api/api";
+import { marked } from "marked";
+import { useNavigate } from "react-router-dom";
+import {
+  Send,
+  LogOut,
+  BookOpen,
+  ChevronDown,
+  BarChart,
+  Bot,
+  User,
+  Loader2,
+  ChevronUp,
+} from "lucide-react";
 
 const ChatPage = () => {
-  const [messages, setMessages] = useState([])
-  const [input, setInput] = useState("")
-  const [loadingResponse, setLoadingResponse] = useState(false)
-  const [mode, setMode] = useState("Explain") // Default mode
-  const [selectedSubject, setSelectedSubject] = useState("")
-  const [chapters, setChapters] = useState([])
-  const [availableSubjects, setAvailableSubjects] = useState([])
-  const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [modeDropdownOpen, setModeDropdownOpen] = useState(false)
-  const [subjectDropdownOpen, setSubjectDropdownOpen] = useState(false)
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loadingResponse, setLoadingResponse] = useState(false);
+  const [mode, setMode] = useState("Explain"); // Default mode
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [chapters, setChapters] = useState([]);
+  const [availableSubjects, setAvailableSubjects] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [modeDropdownOpen, setModeDropdownOpen] = useState(false);
+  const [subjectDropdownOpen, setSubjectDropdownOpen] = useState(false);
 
-  const navigate = useNavigate()
-  const chatContainerRef = useRef(null)
-  const modeDropdownRef = useRef(null)
-  const subjectDropdownRef = useRef(null)
+  const navigate = useNavigate();
+  const chatContainerRef = useRef(null);
+  const modeDropdownRef = useRef(null);
+  const subjectDropdownRef = useRef(null);
+
+  const storedSubject = localStorage.getItem("selectedSubject");
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const name = localStorage.getItem("name");
+  console.log('user data is: ', userData)
+  console.log('name is: ', name)
 
   // Close dropdowns when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
-      if (modeDropdownRef.current && !modeDropdownRef.current.contains(event.target)) {
-        setModeDropdownOpen(false)
+      if (
+        modeDropdownRef.current &&
+        !modeDropdownRef.current.contains(event.target)
+      ) {
+        setModeDropdownOpen(false);
       }
-      if (subjectDropdownRef.current && !subjectDropdownRef.current.contains(event.target)) {
-        setSubjectDropdownOpen(false)
+      if (
+        subjectDropdownRef.current &&
+        !subjectDropdownRef.current.contains(event.target)
+      ) {
+        setSubjectDropdownOpen(false);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -46,74 +73,71 @@ const ChatPage = () => {
       chatContainerRef.current.scrollTo({
         top: chatContainerRef.current.scrollHeight,
         behavior: "smooth",
-      })
+      });
     }
-  }, [messages])
+  }, [messages]);
 
   useEffect(() => {
     const fetchChapters = async () => {
-      const storedSubject = localStorage.getItem("selectedSubject")
-      const userData = JSON.parse(localStorage.getItem("userData"))
-
       if (!storedSubject) {
-        navigate("/select-subject")
+        navigate("/select-subject");
       } else {
-        setSelectedSubject(storedSubject)
-        setAvailableSubjects(userData?.subjects || [])
-        fetchChaptersForSubject(storedSubject)
+        setSelectedSubject(storedSubject);
+        setAvailableSubjects(userData?.subjects || []);
+        fetchChaptersForSubject(storedSubject);
       }
-    }
+    };
 
-    fetchChapters()
-  }, [navigate])
+    fetchChapters();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchHistory = async () => {
-      if (!selectedSubject) return
+      if (!selectedSubject) return;
       try {
-        const history = await getChatHistory(selectedSubject)
-        setMessages(history || [])
+        const history = await getChatHistory(selectedSubject);
+        setMessages(history || []);
       } catch (error) {
-        console.error("Error fetching chat history:", error)
+        console.error("Error fetching chat history:", error);
       }
-    }
+    };
 
-    fetchHistory()
-  }, [selectedSubject])
+    fetchHistory();
+  }, [selectedSubject]);
 
   const fetchChaptersForSubject = async (subject) => {
     try {
-      const data = await getChaptersBySubject(subject)
-      setChapters(data.chapters || [])
+      const data = await getChaptersBySubject(subject);
+      setChapters(data.chapters || []);
     } catch (error) {
-      console.error("Failed to fetch chapters:", error)
+      console.error("Failed to fetch chapters:", error);
     }
-  }
+  };
 
   // Function to format timestamp
   const getFormattedTime = () => {
-    const now = new Date()
+    const now = new Date();
     return now.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
-    })
-  }
+    });
+  };
 
   const handleSendMessage = async () => {
-    if (!input.trim()) return
+    if (!input.trim()) return;
 
-    const timestamp = getFormattedTime()
+    const timestamp = getFormattedTime();
     const userMessage = {
       text: input,
       sender: "user",
       mode,
       timestamp,
-    }
+    };
 
-    const updatedMessages = [...messages, userMessage]
-    setMessages(updatedMessages)
-    setInput("")
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    setInput("");
 
     // Save user message to DB
     try {
@@ -122,24 +146,24 @@ const ChatPage = () => {
           sender: "user",
           text: input,
         },
-      ]
-      await saveChatHistory(selectedSubject, saveUsermsg)
+      ];
+      await saveChatHistory(selectedSubject, saveUsermsg);
     } catch (error) {
-      console.error("Failed to save user message:", error)
+      console.error("Failed to save user message:", error);
     }
 
     try {
-      setLoadingResponse(true)
-      const botReplyText = await sendChatPrompt(input, mode, 0.7)
+      setLoadingResponse(true);
+      const botReplyText = await sendChatPrompt(input, mode, 0.8);
 
       const botMessage = {
         text: botReplyText,
         sender: "bot",
         timestamp: getFormattedTime(),
-      }
+      };
 
-      const finalMessages = [...updatedMessages, botMessage]
-      setMessages(finalMessages)
+      const finalMessages = [...updatedMessages, botMessage];
+      setMessages(finalMessages);
 
       // Save bot message to DB
       const saveBotmsg = [
@@ -147,41 +171,51 @@ const ChatPage = () => {
           sender: "bot",
           text: botReplyText,
         },
-      ]
-      await saveChatHistory(selectedSubject, saveBotmsg)
+      ];
+      await saveChatHistory(selectedSubject, saveBotmsg);
     } catch (error) {
-      console.error("Chat error:", error)
+      console.error("Chat error:", error);
     } finally {
-      setLoadingResponse(false)
+      setLoadingResponse(false);
     }
-  }
+  };
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?")
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
-      localStorage.removeItem("token")
-      localStorage.removeItem("userData")
-      localStorage.removeItem("selectedSubject")
-      navigate("/login")
+      localStorage.removeItem("token");
+      localStorage.removeItem("userData");
+      localStorage.removeItem("selectedSubject");
+      navigate("/login");
     }
-  }
+  };
 
   const handleChapterClick = (chapter) => {
-    const message = `Explain the topic: ${chapter} so that the concept is clear properly`
-    setInput(message)
+    setInput("");
+    const message = `You have to explain the topic: ${chapter} to the user, so that they can understand the  concept. While explaining the user you should know about the user and generate response based on that data.
+    The use's highest education is of level ${userData.highest_education} so generate the explanation according to the user's level of understanding.
+    The user prefers ${userData.language_complexity} content.
+    The user's preffered tone is ${userData.preferred_tone}, so generate the response in that tone.
+    The user's study goal is for ${userData.study_goal}, the content should be helpful for the user according to their goal.
+    The user's study preference is ${userData.study_level}.
+    The user has available time ${userData.available_time}, if the available time is less than 4-8 then generate content in range of 300 to 400 words otherwise generate the content in the range of more than 450 words.
+    The user's content preferences are ${userData.content_preferences}, if the content preferences include test or quiz, then after explaining the topic, give user some test or quiz questions based on his preference related to that topic and then give the answer also in italics font.
+    All the data that I have provided you about the user, don't tell them in the chat. In your response text, there should only be content related to the topic and adjust it based on the data that i have provided you. In your response highlght and do proper formatting of text using markdown. The response should also include sub topics related to that topic and highlight each heading with bigger font and bold. Also add line break after each paragraph.
+    `;
+    setInput(message);
 
     // Create and add the message manually
-    const timestamp = getFormattedTime()
+    const timestamp = getFormattedTime();
     const userMessage = {
-      text: message,
+      text: chapter,
       sender: "user",
       mode,
       timestamp,
-    }
+    };
 
-    const updatedMessages = [...messages, userMessage]
-    setMessages(updatedMessages)
-    setInput("")
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    setInput("");
 
     // Continue with the API call
     const sendMessage = async () => {
@@ -190,22 +224,23 @@ const ChatPage = () => {
         const saveUsermsg = [
           {
             sender: "user",
-            text: message,
+            text: chapter,
+            // msgPrompt: message
           },
-        ]
-        await saveChatHistory(selectedSubject, saveUsermsg)
+        ];
+        await saveChatHistory(selectedSubject, saveUsermsg);
 
-        setLoadingResponse(true)
-        const botReplyText = await sendChatPrompt(message, mode, 0.7)
+        setLoadingResponse(true);
+        const botReplyText = await sendChatPrompt(message, mode, 0.7);
 
         const botMessage = {
           text: botReplyText,
           sender: "bot",
           timestamp: getFormattedTime(),
-        }
+        };
 
-        const finalMessages = [...updatedMessages, botMessage]
-        setMessages(finalMessages)
+        const finalMessages = [...updatedMessages, botMessage];
+        setMessages(finalMessages);
 
         // Save bot message to DB
         const saveBotmsg = [
@@ -213,34 +248,34 @@ const ChatPage = () => {
             sender: "bot",
             text: botReplyText,
           },
-        ]
-        await saveChatHistory(selectedSubject, saveBotmsg)
+        ];
+        await saveChatHistory(selectedSubject, saveBotmsg);
       } catch (error) {
-        console.error("Chat error:", error)
+        console.error("Chat error:", error);
       } finally {
-        setLoadingResponse(false)
+        setLoadingResponse(false);
       }
-    }
+    };
 
-    sendMessage()
-  }
+    sendMessage();
+  };
 
   const handleViewProgress = () => {
-    navigate("/select-subject")
-  }
+    navigate("/select-subject");
+  };
 
   const handleSubjectChange = (subject) => {
-    setSelectedSubject(subject)
-    localStorage.setItem("selectedSubject", subject)
-    fetchChaptersForSubject(subject)
-    setMessages([])
-    setSubjectDropdownOpen(false)
-  }
+    setSelectedSubject(subject);
+    localStorage.setItem("selectedSubject", subject);
+    fetchChaptersForSubject(subject);
+    setMessages([]);
+    setSubjectDropdownOpen(false);
+  };
 
   const handleModeChange = (newMode) => {
-    setMode(newMode)
-    setModeDropdownOpen(false)
-  }
+    setMode(newMode);
+    setModeDropdownOpen(false);
+  };
 
   return (
     <div className="flex w-full h-screen bg-slate-50">
@@ -344,18 +379,30 @@ const ChatPage = () => {
         </header>
 
         {/* Chat Area */}
-        <div ref={chatContainerRef} className="flex-1 p-4 bg-slate-50 overflow-y-auto">
+        <div
+          ref={chatContainerRef}
+          className="flex-1 p-4 bg-slate-50 overflow-y-auto"
+        >
           <div className="max-w-3xl mx-auto space-y-4 pb-20">
             {messages.length === 0 && (
               <div className="text-center py-10">
                 <Bot className="h-12 w-12 mx-auto text-slate-300 mb-4" />
-                <h3 className="text-lg font-medium text-slate-700">Start a conversation</h3>
-                <p className="text-slate-500 mt-2">Select a chapter from the sidebar or ask a question below</p>
+                <h3 className="text-lg font-medium text-slate-700">
+                  Start a conversation
+                </h3>
+                <p className="text-slate-500 mt-2">
+                  Select a chapter from the sidebar or ask a question below
+                </p>
               </div>
             )}
 
             {messages.map((msg, index) => (
-              <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+              <div
+                key={index}
+                className={`flex ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
                 <div className="flex items-start max-w-[80%] gap-3">
                   {msg.sender === "bot" && (
                     <div className="h-8 w-8 rounded-full bg-purple-100 text-blue-700 flex items-center justify-center mt-1">
@@ -365,16 +412,26 @@ const ChatPage = () => {
 
                   <div
                     className={`rounded-lg shadow-sm p-3 ${
-                      msg.sender === "user" ? "bg-gradient-to-r from-blue-500 to-purple-700 text-white" : "bg-white"
+                      msg.sender === "user"
+                        ? "bg-gradient-to-r from-blue-500 to-purple-700 text-white"
+                        : "bg-white"
                     }`}
                   >
                     <div
-                      className={`prose prose-sm max-w-none ${msg.sender === "user" ? "text-white" : "text-slate-800"}`}
+                      className={`prose prose-sm max-w-none ${
+                        msg.sender === "user" ? "text-white" : "text-slate-800"
+                      }`}
                       dangerouslySetInnerHTML={{
                         __html: marked(msg.text),
                       }}
                     />
-                    <div className={`text-xs mt-1 ${msg.sender === "user" ? "text-purple-200" : "text-slate-400"}`}>
+                    <div
+                      className={`text-xs mt-1 ${
+                        msg.sender === "user"
+                          ? "text-purple-200"
+                          : "text-slate-400"
+                      }`}
+                    >
                       {msg.timestamp}
                     </div>
                   </div>
@@ -398,7 +455,9 @@ const ChatPage = () => {
                   <div className="rounded-lg shadow-sm p-3 bg-white">
                     <div className="flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin text-purple-600" />
-                      <span className="text-sm text-slate-500">Thinking...</span>
+                      <span className="text-sm text-slate-500">
+                        Thinking...
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -416,7 +475,11 @@ const ChatPage = () => {
                 onClick={() => setModeDropdownOpen(!modeDropdownOpen)}
               >
                 <span>{mode}</span>
-                {modeDropdownOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                {modeDropdownOpen ? (
+                  <ChevronUp className="h-4 w-4" />
+                ) : (
+                  <ChevronDown className="h-4 w-4" />
+                )}
               </button>
               {modeDropdownOpen && (
                 <div className="absolute top-0 left-0 mt-[-120px] w-[130px] bg-white border border-slate-200 rounded-md shadow-lg z-10">
@@ -448,7 +511,9 @@ const ChatPage = () => {
                 placeholder="Type your message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && !e.shiftKey && handleSendMessage()
+                }
               />
               <button
                 className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 flex items-center justify-center rounded-full ${
@@ -466,7 +531,7 @@ const ChatPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatPage
+export default ChatPage;
