@@ -127,7 +127,7 @@ const ProfileSetup3 = () => {
           {/* Language Complexity */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Expected language complexity:
+              Expected language type:
             </label>
             <select
               value={languageComplexity}

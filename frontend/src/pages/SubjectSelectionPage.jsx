@@ -4,7 +4,7 @@ import { updateSubject, sendChatPrompt } from "../api/api";
 import { marked } from "marked";
 import "../styles/subjectSelection.css";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Bot } from "lucide-react"  
+import { Bot } from "lucide-react";
 
 const SubjectSelectionPage = () => {
   const [subjects, setSubjects] = useState([]);
@@ -13,11 +13,9 @@ const SubjectSelectionPage = () => {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const name = localStorage.getItem("name");
-  console.log(loading)
+  console.log(loading);
 
   useEffect(() => {
-
-
     if (!userData) {
       navigate("/profile-setup");
       return;
@@ -62,7 +60,6 @@ const SubjectSelectionPage = () => {
       }
     };
     fetchGreet();
-    
   }, []);
 
   // useEffect(() => {
@@ -82,68 +79,67 @@ const SubjectSelectionPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-blue-600 to-purple-800 flex flex-col items-center justify-start p-6">
-   
+      <div className="font-mono mt-4 mb-6 w-full max-w-7xl text-[#F1F1F1] text-justify font-semibold  ">
+        <p className="w-full flex items-center justify-center">
+          <Bot className="h-20 w-20 mx-auto text-slate-300 mb-2 inline-block" />
+        </p>
+        {loading ? (
+          <div className="w-full text-center">
+            <ClipLoader color={"white"} size={50} />
+          </div>
+        ) : (
+          <span
+            className="inline-block"
+            dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}
+          ></span>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl bg-white rounded-xl p-10 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer  max-h-[30rem] overflow-y-auto ">
+        {subjects.map((subject) => (
           <div
-            className="font-mono mt-4 mb-6 w-full max-w-7xl text-[#F1F1F1] text-justify font-semibold  "
-            >
-            <p className="w-full flex items-center justify-center" ><Bot className="h-20 w-20 mx-auto text-slate-300 mb-2 inline-block" /></p>
-            {loading? (<div className="w-full text-center">
-              <ClipLoader color={"white"} size={50} />
-            </div>
-              
-            ) : (
-            <span className="inline-block" dangerouslySetInnerHTML={{ __html: marked(greetingMessage) }}>
-            </span>)
-            }
-            
-          </div>
+            key={subject}
+            onClick={() => handleSubjectClick(subject)}
+            className="bg-gray-200 rounded-xl p-5 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer w-[21rem] h-[11rem] text-justify border-l-4  border-[#3F51B5]"
+          >
+            <h3 className="text-xl space-grotesk font-semibold text-[#212121] mb-2">
+              {subject}
+            </h3>
+            <p className="text-[#616161] roboto-flex mb-4">
+              {subject === "Maths"
+                ? "Master numbers, equations and problem solving."
+                : subject === "Physics"
+                ? "Explore the laws of nature and the universe."
+                : subject === "Biology"
+                ? "Discover life, organisms, and ecosystems."
+                : subject === "Chemistry"
+                ? "Understand matter, reactions, and atoms."
+                : subject === "Statistics"
+                ? "Learn about data, probability, and statistics."
+                : subject === "Computer Science"
+                ? "Learn about computer systems, programming, and algorithms."
+                : subject === "Economics"
+                ? "Understand economic systems, markets, and policies."
+                : subject === "History"
+                ? "Explore past events, cultures, and societies."
+                : subject === "Geography"
+                ? "Learn about the world's physical and human geography."
+                : "Learn and explore this subject in depth."}
+            </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl bg-white rounded-xl p-10 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer  max-h-[30rem] overflow-y-auto ">
-            {subjects.map((subject) => (
+            {/* Dummy Progress Bar */}
+            <div className="w-full bg-gray-100 rounded-full h-3 mb-1">
               <div
-                key={subject}
-                onClick={() => handleSubjectClick(subject)}
-                className="bg-gray-200 rounded-xl p-5 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer w-[21rem] h-[11rem] text-justify border-l-4  border-[#3F51B5]"
-              >
-                <h3 className="text-xl space-grotesk font-semibold text-[#212121] mb-2">
-                  {subject}
-                </h3>
-                <p className="text-[#616161] roboto-flex mb-4">
-                  {subject === "Maths"
-                    ? "Master numbers, equations and problem solving."
-                    : subject === "Physics"
-                    ? "Explore the laws of nature and the universe."
-                    : subject === "Biology"
-                    ? "Discover life, organisms, and ecosystems."
-                    : subject === "Chemistry"
-                    ? "Understand matter, reactions, and atoms."
-                    : subject === "Statistics"
-                    ? "Learn about data, probability, and statistics."
-                    : subject === "Computer Science"
-                    ? "Learn about computer systems, programming, and algorithms."
-                    : subject === "Economics"
-                    ? "Understand economic systems, markets, and policies."
-                    : subject === "History"
-                    ? "Explore past events, cultures, and societies."
-                    : subject === "Geography"
-                    ? "Learn about the world's physical and human geography."
-                    
-                    : "Learn and explore this subject in depth."}
-                </p>
-
-                {/* Dummy Progress Bar */}
-                <div className="w-full bg-gray-100 rounded-full h-3 mb-1">
-                  <div
-                    className="bg-green-600 h-3 rounded-full transition-all duration-300"
-                    style={{ width: `${Math.floor(Math.random() * 80) + 20}%` }}
-                  ></div>
-                </div>
-                <span className="text-xs font-mono text-gray-500">
-                  Progress {Math.floor(Math.random() * 80) + 20}%
-                </span>
-              </div>
-            ))}
+                className="bg-green-600 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${Math.floor(Math.random() * 80) + 20}%` }}
+              ></div>
+            </div>
+            <span className="text-xs font-mono text-gray-500">
+              Progress {Math.floor(Math.random() * 80) + 20}%
+            </span>
           </div>
+        ))}
+      </div>
     </div>
   );
 };
