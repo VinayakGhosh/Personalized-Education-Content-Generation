@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BookOpen,
   Clock,
@@ -13,63 +13,52 @@ import {
   BarChart,
   ChevronLeft,
   Edit,
-} from "lucide-react"
+} from "lucide-react";
+import { getUserProfile } from "../api/api";
 
 const ShowProfile = () => {
-  const navigate = useNavigate()
-  const [userData, setUserData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const userProfileData = JSON.parse(localStorage.getItem("userData"));
+  // const name = localStorage.getItem("name");
+  const token = localStorage.getItem("token");
+  console.log("token: ", token);
+
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(userProfileData);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Fetch user data from localStorage or API
     const fetchUserData = async () => {
+      setLoading(true)
       try {
         // For demo purposes, using mock data
         // In a real app, you would fetch this from an API
-        const storedUserData = localStorage.getItem("userData")
 
-        if (storedUserData) {
-          setUserData(JSON.parse(storedUserData))
-        } else {
-          // Mock data for demonstration
-          setUserData({
-            name: "Alex Johnson",
-            age: 22,
-            highestEducation: "Bachelor's Degree",
-            availableTime: "2 hours daily",
-            subjects: ["Mathematics", "Physics", "Computer Science"],
-            studyLevel: "Advanced",
-            studyGoal: "Prepare for Master's entrance exams",
-            preferredTone: "Friendly but professional",
-            contentPreferences: ["Visual examples", "Practice problems", "Real-world applications"],
-            languageComplexity: "Moderate",
-            progress: {
-              Mathematics: 68,
-              Physics: 42,
-              "Computer Science": 85,
-            },
-          })
-        }
-        setLoading(false)
+        const response = await getUserProfile(token);
+        console.log("response is: ", response);
+        setUserData(response);
+
+        
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching user data:", error)
-        setLoading(false)
+        console.error("Error fetching user data:", error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchUserData()
-  }, [])
+    fetchUserData();
+  }, []);
 
   const handleBackToChat = () => {
-    navigate("/chat")
-  }
+    navigate("/select-subject");
+  };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-slate-50">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -83,7 +72,7 @@ const ShowProfile = () => {
               className="flex items-center gap-2 text-white hover:bg-white/10 rounded-md px-3 py-2 transition-colors"
             >
               <ChevronLeft className="h-5 w-5" />
-              <span>Back to Chat</span>
+              <span>Back to Subjects</span>
             </button>
 
             <h1 className="text-2xl font-bold">User Profile</h1>
@@ -106,19 +95,12 @@ const ShowProfile = () => {
               </div>
 
               <div className="text-center md:text-left">
-                <h2 className="text-2xl font-bold text-slate-800">{userData.name}</h2>
+                <h2 className="text-2xl font-bold text-slate-800">
+                  {userData.name}
+                </h2>
                 <p className="text-slate-500 mt-1">Age: {userData.age}</p>
 
-                <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
-                  {userData.subjects.map((subject, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium"
-                    >
-                      {subject}
-                    </span>
-                  ))}
-                </div>
+                
               </div>
             </div>
           </div>
@@ -139,28 +121,38 @@ const ShowProfile = () => {
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="text-sm font-medium text-slate-500 mb-1">Highest Education</h4>
-                    <p className="text-slate-800">{userData.highestEducation}</p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-medium text-slate-500 mb-1">Study Level</h4>
-                    <p className="text-slate-800">{userData.studyLevel}</p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-medium text-slate-500 mb-1">Available Time</h4>
-                    <p className="text-slate-800 flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-slate-400" />
-                      {userData.availableTime}
+                    <h4 className="text-sm font-medium text-slate-500 mb-1">
+                      Highest Education
+                    </h4>
+                    <p className="text-slate-800">
+                      {(userData.highest_education).toUpperCase()}
                     </p>
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-slate-500 mb-1">Study Goal</h4>
+                    <h4 className="text-sm font-medium text-slate-500 mb-1">
+                      Study Level
+                    </h4>
+                    <p className="text-slate-800">{userData.study_level}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-slate-500 mb-1">
+                      Available Time
+                    </h4>
+                    <p className="text-slate-800 flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-slate-400" />
+                      {userData.available_time} hrs
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-slate-500 mb-1">
+                      Study Goal
+                    </h4>
                     <p className="text-slate-800 flex items-center gap-2">
                       <Target className="h-4 w-4 text-slate-400" />
-                      {userData.studyGoal}
+                      {userData.study_goal}
                     </p>
                   </div>
                 </div>
@@ -179,27 +171,36 @@ const ShowProfile = () => {
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="text-sm font-medium text-slate-500 mb-1">Preferred Tone</h4>
+                    <h4 className="text-sm font-medium text-slate-500 mb-1">
+                      Preferred Tone
+                    </h4>
                     <p className="text-slate-800 flex items-center gap-2">
                       <MessageSquare className="h-4 w-4 text-slate-400" />
-                      {userData.preferredTone}
+                      {userData.preferred_tone}
                     </p>
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-slate-500 mb-1">Language Complexity</h4>
+                    <h4 className="text-sm font-medium text-slate-500 mb-1">
+                      Language Complexity
+                    </h4>
                     <p className="text-slate-800 flex items-center gap-2">
                       <Globe className="h-4 w-4 text-slate-400" />
-                      {userData.languageComplexity}
+                      {userData.language_complexity}
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-medium text-slate-500 mb-2">Content Preferences</h4>
+                  <h4 className="text-sm font-medium text-slate-500 mb-2">
+                    Content Preferences
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {userData?.contentPreferences?.map((preference, index) => (
-                      <span key={index} className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
+                    {userData?.content_preferences?.map((preference, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                      >
                         {preference}
                       </span>
                     ))}
@@ -222,8 +223,11 @@ const ShowProfile = () => {
 
               <div className="p-6">
                 <ul className="space-y-2">
-                  {userData.subjects.map((subject, index) => (
-                    <li key={index} className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-50">
+                  {userProfileData.subjects.map((subject, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-50"
+                    >
                       <div className="h-8 w-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center">
                         {index + 1}
                       </div>
@@ -235,7 +239,7 @@ const ShowProfile = () => {
             </div>
 
             {/* Progress */}
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            {/* <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="px-6 py-4 border-b border-slate-100">
                 <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
                   <BarChart className="h-5 w-5 text-purple-600" />
@@ -245,28 +249,34 @@ const ShowProfile = () => {
 
               <div className="p-6">
                 <div className="space-y-4">
-                  {Object.entries(userData.progress).map(([subject, progress]) => (
-                    <div key={subject}>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm font-medium text-slate-700">{subject}</span>
-                        <span className="text-sm font-medium text-slate-700">{progress}%</span>
+                  {Object.entries(userData.progress).map(
+                    ([subject, progress]) => (
+                      <div key={subject}>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm font-medium text-slate-700">
+                            {subject}
+                          </span>
+                          <span className="text-sm font-medium text-slate-700">
+                            {progress}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-slate-200 rounded-full h-2.5">
+                          <div
+                            className="h-2.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600"
+                            style={{ width: `${progress}%` }}
+                          ></div>
+                        </div>
                       </div>
-                      <div className="w-full bg-slate-200 rounded-full h-2.5">
-                        <div
-                          className="h-2.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600"
-                          style={{ width: `${progress}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default ShowProfile
+export default ShowProfile;
