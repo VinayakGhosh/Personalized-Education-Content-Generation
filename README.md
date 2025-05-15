@@ -9,7 +9,7 @@ This repository has source code for Personalized Educational Content Generation 
 - cd into /backend
 1) Setup virtual env in python using
      ```
-     python -m venv venv
+     python -m venv venvPersonalized
      source venv/Scripts/activate  
     ```
 
@@ -35,7 +35,7 @@ This repository has source code for Personalized Educational Content Generation 
      ```
 4) Run FastApi
      ```
-     uvicorn main:app --reload
+     Run sh start.sh
     ```
    
 
