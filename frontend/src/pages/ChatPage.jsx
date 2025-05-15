@@ -199,7 +199,7 @@ const ChatPage = () => {
     The user's study goal is for ${userData.study_goal}, the content should be helpful for the user according to their goal.
     The user's study preference is ${userData.study_level}.
     The user has available time ${userData.available_time}, if the available time is less than 4-8 then generate content in range of 300 to 400 words otherwise generate the content in the range of more than 450 words.
-    The user's content preferences are ${userData.content_preferences}, if the content preferences include test or quiz, then after explaining the topic, give user some test or quiz related to that topic.
+    The user's content preferences are ${userData.content_preferences}, if the content preferences include test or quiz, then after explaining the topic, give user some test or quiz questions based on his preference related to that topic and then give the answer also in italics font.
     All the data that I have provided you about the user, don't tell them in the chat. In your response text, there should only be content related to the topic and adjust it based on the data that i have provided you. In your response highlght and do proper formatting of text using markdown. The response should also include sub topics related to that topic and highlight each heading with bigger font and bold. Also add line break after each paragraph.
     `;
     setInput(message);
