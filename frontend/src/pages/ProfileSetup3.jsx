@@ -89,7 +89,7 @@ const ProfileSetup3 = () => {
               What is your preferred type of content:
             </label>
             <div className="flex flex-wrap gap-2">
-              {["Tests", "Quizzes", "Videos", "Text-based", "Interactive"].map((pref) => (
+              {["Text Content", "Interactive", "Test", "Quiz"].map((pref) => (
                 <label
                   key={pref}
                   className={`cursor-pointer px-3 py-1 border rounded-md ${
