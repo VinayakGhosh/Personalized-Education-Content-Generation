@@ -153,7 +153,7 @@ const ShowProfile = () => {
                     <h4 className="text-sm font-medium text-slate-500 mb-1">
                       Study Level
                     </h4>
-                    <p className="text-slate-800">{userData.study_level}</p>
+                    <p className="text-slate-800">{(userData.study_level).toUpperCase()}</p>
                   </div>
 
                   <div>
@@ -172,7 +172,7 @@ const ShowProfile = () => {
                     </h4>
                     <p className="text-slate-800 flex items-center gap-2">
                       <Target className="h-4 w-4 text-slate-400" />
-                      {userData.study_goal}
+                      {(userData.study_goal).toUpperCase()}
                     </p>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ const ShowProfile = () => {
                     </h4>
                     <p className="text-slate-800 flex items-center gap-2">
                       <MessageSquare className="h-4 w-4 text-slate-400" />
-                      {userData.preferred_tone}
+                      {(userData.preferred_tone).toUpperCase()}
                     </p>
                   </div>
 
@@ -206,7 +206,7 @@ const ShowProfile = () => {
                     </h4>
                     <p className="text-slate-800 flex items-center gap-2">
                       <Globe className="h-4 w-4 text-slate-400" />
-                      {userData.language_complexity}
+                      {(userData.language_complexity).toUpperCase()}
                     </p>
                   </div>
                 </div>
