@@ -108,7 +108,7 @@ const ProfileSetup3 = () => {
           {/* Tone Selection */}
           <div>
             <label className="block font-[monospace] text-base text-gray-700 font-medium mb-2">
-              Preferred Tone in chat:
+              Preferred Tone:
             </label>
             <select
               value={preferredTone}
@@ -134,12 +134,12 @@ const ProfileSetup3 = () => {
               onChange={(e) => setLanguageComplexity(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
             >
-              <option value="simple and easy">Simple and easy to understand</option>
-              <option value="academic">Academically inclined Language</option>
-              <option value="technical and complex">Technical and Complex</option>
-              <option value="professional and clear">Professional and Clear</option>
-              <option value="descriptive and detailed">Descriptive and Detailed</option>
-              <option value="storytelling">Narrative or Storytelling Style</option>
+              <option value="Simple and easy to understand">Simple and easy to understand</option>
+              <option value="Academically inclined Language">Academically inclined Language</option>
+              <option value="Technical and Complex">Technical and Complex</option>
+              <option value="Professional and Clear">Professional and Clear</option>
+              <option value="Descriptive and Detailed">Descriptive and Detailed</option>
+              <option value="Narrative or Storytelling Style">Narrative or Storytelling Style</option>
             </select>
           </div>
 

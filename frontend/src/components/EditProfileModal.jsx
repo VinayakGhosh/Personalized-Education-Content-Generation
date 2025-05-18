@@ -49,8 +49,8 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
   };
 
   const handleRemoveSubject = (subjectToRemove) => {
-    alert(`Do you want to remove subject: ${subjectToRemove}`)
-    console.log("sub", subjectToRemove)
+    alert(`Do you want to remove subject: ${subjectToRemove}`);
+    console.log("sub", subjectToRemove);
     setFormData((prev) => ({
       ...prev,
       subjects: prev.subjects.filter((subject) => subject !== subjectToRemove),
@@ -88,7 +88,8 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
       });
       onClose();
     } catch (err) {
-      const errorMessage = err.detail || "Failed to update profile. Please try again.";
+      const errorMessage =
+        err.detail || "Failed to update profile. Please try again.";
       setError(errorMessage);
       toast.error(errorMessage, {
         position: "bottom-right",
@@ -168,9 +169,8 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 >
                   <option value="school">School</option>
-                  <option value="high school">High School</option>
-                  <option value="bachelor">Bachelor's</option>
-                  <option value="master">Master's</option>
+                  <option value="college">College</option>
+                  <option value="masters">Masters</option>
                   <option value="phd">PhD</option>
                 </select>
               </div>
@@ -185,9 +185,11 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 >
-                  <option value="beginner">Beginner</option>
+                  <option value="novice">Novice</option>
+                  <option value="basic">Basic</option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
+                  <option value="expert">Expert</option>
                 </select>
               </div>
             </div>
@@ -198,13 +200,18 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Available Time (hours)
                 </label>
-                <input
+                <select
                   type="number"
                   name="available_time"
                   value={formData.available_time}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                />
+                >
+                  <option value="1-2">1-2 hours</option>
+                  <option value="2-4">2-4 hours</option>
+                  <option value="4-8">4-8 hours</option>
+                  <option value="8+">More than 8 hours</option>
+                </select>
               </div>
 
               <div>
@@ -217,9 +224,19 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 >
-                  <option value="exam preparation">Exam Preparation</option>
-                  <option value="skill development">Skill Development</option>
-                  <option value="general knowledge">General Knowledge</option>
+                  <option value="exam preparation">Preparing for exam</option>
+                  <option value="general awareness">
+                    Learning for general gwareness
+                  </option>
+                  <option value="updating knowledge">
+                    Updating myself with new subjects
+                  </option>
+                  <option value="hobby learning">
+                    Want to learn something just for hobby
+                  </option>
+                  <option value="project research ">
+                    Doing research for a project
+                  </option>
                 </select>
               </div>
             </div>
@@ -236,9 +253,14 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 >
+                  <option value="friendly and casual">
+                    Friendly and casual
+                  </option>
                   <option value="formal">Formal</option>
-                  <option value="casual">Casual</option>
-                  <option value="friendly">Friendly</option>
+                  <option value="motivational">Motivational</option>
+                  <option value="professional">Professional</option>
+                  <option value="humorous">Humorous</option>
+                  <option value="encouraging">Encouraging</option>
                 </select>
               </div>
 
@@ -252,9 +274,24 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 >
-                  <option value="simple">Simple</option>
-                  <option value="moderate">Moderate</option>
-                  <option value="complex">Complex</option>
+                  <option value="Simple and easy to understand">
+                    Simple and easy to understand
+                  </option>
+                  <option value="Academically inclined Language">
+                    Academically inclined Language
+                  </option>
+                  <option value="Technical and Complex">
+                    Technical and Complex
+                  </option>
+                  <option value="Professional and Clear">
+                    Professional and Clear
+                  </option>
+                  <option value="Descriptive and Detailed">
+                    Descriptive and Detailed
+                  </option>
+                  <option value="Narrative or Storytelling Style">
+                    Narrative or Storytelling Style
+                  </option>
                 </select>
               </div>
             </div>
@@ -347,4 +384,4 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
   );
 };
 
-export default EditProfileModal; 
+export default EditProfileModal;
