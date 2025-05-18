@@ -15,6 +15,7 @@ import {
   Edit,
 } from "lucide-react";
 import { getUserProfile } from "../api/api";
+import EditProfileModal from "../components/EditProfileModal";
 
 const ShowProfile = () => {
   const userProfileData = JSON.parse(localStorage.getItem("userData"));
@@ -25,6 +26,7 @@ const ShowProfile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(userProfileData);
   const [loading, setLoading] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     // Fetch user data from localStorage or API
@@ -53,6 +55,21 @@ const ShowProfile = () => {
     navigate("/select-subject");
   };
 
+  const handleEditProfile = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveProfile = async (updatedData) => {
+    try {
+      // Here you would typically make an API call to update the profile
+      // For now, we'll just update the local state
+      setUserData(updatedData);
+      localStorage.setItem("userData", JSON.stringify(updatedData));
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-slate-50">
@@ -77,7 +94,10 @@ const ShowProfile = () => {
 
             <h1 className="text-2xl font-bold">User Profile</h1>
 
-            <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-md px-3 py-2 transition-colors">
+            <button 
+              onClick={handleEditProfile}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-md px-3 py-2 transition-colors"
+            >
               <Edit className="h-5 w-5" />
               <span>Edit Profile</span>
             </button>
@@ -275,6 +295,14 @@ const ShowProfile = () => {
           </div>
         </div>
       </main>
+
+      {/* Add the EditProfileModal */}
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        userData={userData}
+        onSave={handleSaveProfile}
+      />
     </div>
   );
 };

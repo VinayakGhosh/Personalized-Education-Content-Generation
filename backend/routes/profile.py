@@ -112,7 +112,7 @@ async def get_my_profile(current_user: dict = Depends(get_current_user_from_toke
     }
 
 class ProfileUpdate(BaseModel):
-    age: Optional[str] = Field(None, description="User's age", example="25")
+    age: Optional[int] = Field(None, description="User's age", example="25")
     highest_education: Optional[str] = Field(None, description="Highest level of education completed", example="Bachelor's Degree")
     available_time: Optional[str] = Field(None, description="Available time for study", example="2 hours per day")
     study_level: Optional[str] = Field(None, description="Current study level", example="Intermediate")
