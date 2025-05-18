@@ -140,3 +140,24 @@ export const sendChatPrompt = async (message, mode, temp) => {
     return "Error getting response from AI.";
   }
 };
+
+// Update user profile
+export const updateProfile = async (profileData) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.patch(
+      `${API_URL}/user/profile/me`,
+      profileData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error.response?.data || { detail: "Failed to update profile" };
+  }
+};
