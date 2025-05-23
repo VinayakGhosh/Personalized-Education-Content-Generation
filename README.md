@@ -31,8 +31,9 @@ This repository has source code for Personalized Educational Content Generation 
           MONGO_URI=<mongo_db_uri>
           JWT_SECRET=your_secret_key
           OLLAMA_MODEL=llama3-8b-8192
-          GROG_API = <your api key>
+          GROG_API = <your api key> 
      ```
+    -> get it from [https://console.groq.com/keys](https://console.groq.com/keys)
 4) Run FastApi
      ```
      Run sh start.sh
