@@ -234,12 +234,12 @@ async def get_subject_progress(current_user: dict = Depends(get_current_user_fro
 
     return {"progress": profile.get("progress", {})}
 
-@profile_router.get("/debug/profile")
-async def debug_profile(current_user: dict = Depends(get_current_user_from_token)):
-    user_id = str(current_user["_id"])
-    print("DEBUG user ID:", user_id)
+# @profile_router.get("/debug/profile")
+# async def debug_profile(current_user: dict = Depends(get_current_user_from_token)):
+#     user_id = str(current_user["_id"])
+#     print("DEBUG user ID:", user_id)
     
-    profile = profiles_collection.find_one({"user_id": user_id})
-    print("DEBUG Profile:", profile)
+#     profile = profiles_collection.find_one({"user_id": user_id})
+#     print("DEBUG Profile:", profile)
     
-    return {"user_id": user_id, "profile": profile}
+#     return {"user_id": user_id, "profile": profile}
