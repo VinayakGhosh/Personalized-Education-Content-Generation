@@ -20,11 +20,6 @@ def user_signup(user: UserSignup):
         "password": hashed_password,
         "full_name": user.full_name,
         "profile_complete": False,  # New users start with incomplete profile
-        "age": None,
-        "study_level": None,
-        "stream": None,
-        "subjects": [],
-        "preferences": []
     }
     users_collection.insert_one(user_entry)
     return {"message": "User registered successfully!",
