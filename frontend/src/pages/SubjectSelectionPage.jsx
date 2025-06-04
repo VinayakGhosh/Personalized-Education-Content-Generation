@@ -129,13 +129,12 @@ const SubjectSelectionPage = () => {
             </p>
 
             {/* Progress Bar */}
-            <div className="w-full bg-gray-200 rounded-full h-3 mb-1 overflow-hidden">
-              <div
-                className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-300"
-                style={{ width: `${Math.floor(Math.random() * 80) + 20}%` }}
-              ></div>
+            <div className="w-full bg-gray-200 rounded-full h-auto mb-1 group">
+              <span className="flex justify-end p-2 font-mono text-sm transition-all duration-300 group-hover:translate-x-[-4px]">
+                Let's Go &#8594;
+              </span>
             </div>
-            <span className="text-xs font-mono text-gray-600">Progress {Math.floor(Math.random() * 80) + 20}%</span>
+            
           </div>
         ))}
       </div>
