@@ -2,7 +2,7 @@
 set -e
 
 
-source venvPersonalized/Scripts/activate
+source .venv/Scripts/activate
 echo "Activated virtual environment"
 
 echo "Starting the server..."
