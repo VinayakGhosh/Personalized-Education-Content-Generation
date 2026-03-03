@@ -16,9 +16,9 @@ load_dotenv()
 chat_router = APIRouter()
 
 # Load Ollama model
-model_name = os.getenv("OLLAMA_MODEL", "llama")  # Default model if not set
-llm = OllamaLLM(model=model_name)
-grog_api = os.getenv("GROG_API")
+model_name = os.getenv("GROQ_MODEL", "llama")  # Default model if not set
+# llm = OllamaLLM(model=model_name)
+groq_api = os.getenv("GROQ_API")
 
 class ChatRequest(BaseModel):
     prompt: str
@@ -49,7 +49,7 @@ def generate_content(request: ChatRequest):
 
         url = "https://api.groq.com/openai/v1/chat/completions"
         headers = {
-            "Authorization": f"Bearer {grog_api}",
+            "Authorization": f"Bearer {groq_api}",
             "Content-Type": "application/json"
         }
         payload = {

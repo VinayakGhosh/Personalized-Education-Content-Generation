@@ -459,13 +459,15 @@ const ChatPage = () => {
             )}
           </div>
           <div className="flex items-center gap-2">
-          <button
+            {/* <button
               className="px-4 py-2 text-sm rounded-md border border-blue-200 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-colors flex items-center gap-2"
-              onClick={(e) => {navigate("/show-profile")}}
+              onClick={(e) => {
+                navigate("/show-profile");
+              }}
             >
               <User className="h-4 w-4 " />
               Profile
-            </button>
+            </button> */}
             <button
               className="px-4 py-2 text-sm rounded-md border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2"
               onClick={handleLogout}
